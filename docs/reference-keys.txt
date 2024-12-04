@@ -1,6 +1,4 @@
 data-visualization-and-geospatial-analysis-with-r
-the-pool-of-tears
-a-caucus-race-and-a-long-tale
 large-scale-geospatial-analysis-2023
 import-libraries-and-sample-dataset
 raster-and-shapefile-visualization
