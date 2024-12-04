@@ -1,4 +1,4 @@
-data-visualization-and-geospatial-analysis-with-r
+introduction
 import-libraries-and-sample-dataset
 raster-and-shapefile-visualization
 plotting-raster-data

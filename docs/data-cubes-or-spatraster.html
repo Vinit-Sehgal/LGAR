@@ -61,7 +61,7 @@
 <script src="libs/leaflet-binding-2.1.1/leaflet.js"></script>
 <script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
 <script src="libs/leaflet-providers-plugin-2.1.1/leaflet-providers-plugin.js"></script>
-<script src="libs/brick(sm)_3b8d95-1/data_stars_bricksmd460c8.txt"></script>
+<script src="libs/brick(sm)_3d2f76-1/data_stars_bricksm59eb76.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
@@ -158,7 +158,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Large-scale Geospatial Analysis in R</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Data Visualization and Geospatial Analysis With R</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="import-libraries-and-sample-dataset.html"><a href="import-libraries-and-sample-dataset.html"><i class="fa fa-check"></i><b>2</b> Import libraries and sample dataset</a></li>
 <li class="chapter" data-level="3" data-path="raster-and-shapefile-visualization.html"><a href="raster-and-shapefile-visualization.html"><i class="fa fa-check"></i><b>3</b> Raster and shapefile visualization</a>
 <ul>
@@ -250,7 +250,7 @@ A SpatRaster represents multi-layer (multi-variable) raster data. It always stor
 <h2><span class="header-section-number">5.1</span> Create, subset and visualize SpatRaster<a href="data-cubes-or-spatraster.html#create-subset-and-visualize-spatraster" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We will create multilayer SpatRaster for <code>NDVI</code> and <code>SMAP SM</code> from the sample dataset and demonstrate several applications and operations. Working with SpatRaster is very similar to working with regular arrays or lists.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="data-cubes-or-spatraster.html#cb59-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
-<span id="cb59-2"><a href="data-cubes-or-spatraster.html#cb59-2" tabindex="-1"></a><span class="co">#~~~ PART 3.1.1: Create and plot NDVI SpatRaster</span></span>
+<span id="cb59-2"><a href="data-cubes-or-spatraster.html#cb59-2" tabindex="-1"></a><span class="co">#~~~ Create and plot NDVI SpatRaster</span></span>
 <span id="cb59-3"><a href="data-cubes-or-spatraster.html#cb59-3" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb59-4"><a href="data-cubes-or-spatraster.html#cb59-4" tabindex="-1"></a></span>
 <span id="cb59-5"><a href="data-cubes-or-spatraster.html#cb59-5" tabindex="-1"></a><span class="co"># Location of the NDVI raster files</span></span>
@@ -589,7 +589,7 @@ Note: The two rasters must have same extent and resolution.</p>
 For layer-wise summary statistics and user-defined operations, we will use <code>global</code> function.</p>
 <p>Let’s try some layer-wise cell-statistics:</p>
 <div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="data-cubes-or-spatraster.html#cb92-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
-<span id="cb92-2"><a href="data-cubes-or-spatraster.html#cb92-2" tabindex="-1"></a><span class="co">#~~~ PART 3.3.1: Layer-wise cell-statistics </span></span>
+<span id="cb92-2"><a href="data-cubes-or-spatraster.html#cb92-2" tabindex="-1"></a><span class="co">#~~~ Layer-wise cell-statistics </span></span>
 <span id="cb92-3"><a href="data-cubes-or-spatraster.html#cb92-3" tabindex="-1"></a><span class="co"># Layer-wise Mean</span></span>
 <span id="cb92-4"><a href="data-cubes-or-spatraster.html#cb92-4" tabindex="-1"></a><span class="fu">global</span>(sub_ras_stack, mean, <span class="at">na.rm=</span> T) <span class="co"># Mean of each raster layer. Try modal, median, min etc. </span></span></code></pre></div>
 <pre><code>##                             mean
@@ -652,7 +652,7 @@ For layer-wise summary statistics and user-defined operations, we will use <code
 ##  NA&#39;s   :77100          NA&#39;s   :77091</code></pre>
 <p>Global cell-statistics can be calculated by converting SpatRaster to a <strong>vector</strong> and then using regular statistics functions. We will use <code>as.vector()</code> to convert rasters to vector array before arithmetic operation.</p>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="data-cubes-or-spatraster.html#cb102-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
-<span id="cb102-2"><a href="data-cubes-or-spatraster.html#cb102-2" tabindex="-1"></a><span class="co">#~~~ PART 3.3.2: Global cell-statistics</span></span>
+<span id="cb102-2"><a href="data-cubes-or-spatraster.html#cb102-2" tabindex="-1"></a><span class="co">#~~~ Global cell-statistics</span></span>
 <span id="cb102-3"><a href="data-cubes-or-spatraster.html#cb102-3" tabindex="-1"></a></span>
 <span id="cb102-4"><a href="data-cubes-or-spatraster.html#cb102-4" tabindex="-1"></a><span class="co"># By vectorizing the SpatRaster and finding statistics</span></span>
 <span id="cb102-5"><a href="data-cubes-or-spatraster.html#cb102-5" tabindex="-1"></a>min_val<span class="ot">=</span><span class="fu">min</span>(<span class="fu">as.vector</span>(sub_ras_stack), <span class="at">na.rm=</span>T) </span>
@@ -666,7 +666,7 @@ For layer-wise summary statistics and user-defined operations, we will use <code
 ## -0.05663428  0.84776928</code></pre>
 <p>Layer-wise arithmetic operations on SpatRaster:</p>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="data-cubes-or-spatraster.html#cb106-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
-<span id="cb106-2"><a href="data-cubes-or-spatraster.html#cb106-2" tabindex="-1"></a><span class="co">#~~~ PART 3.3.3: Layer-wise operations on SpatRaster</span></span>
+<span id="cb106-2"><a href="data-cubes-or-spatraster.html#cb106-2" tabindex="-1"></a><span class="co">#~~~ Layer-wise operations on SpatRaster</span></span>
 <span id="cb106-3"><a href="data-cubes-or-spatraster.html#cb106-3" tabindex="-1"></a></span>
 <span id="cb106-4"><a href="data-cubes-or-spatraster.html#cb106-4" tabindex="-1"></a><span class="co"># Arithmetic operations on SpatRaster are same as lists</span></span>
 <span id="cb106-5"><a href="data-cubes-or-spatraster.html#cb106-5" tabindex="-1"></a>add <span class="ot">=</span> sub_ras_stack<span class="sc">+</span><span class="dv">10</span>                  <span class="co"># Add a number to raster layers</span></span>

@@ -245,6 +245,7 @@ tmap_SM
 
 ```
 
+
 To convert the static plot into an interactive map we will use `mapview` package which which is compatible with `rasterbrick`. 
 
 ```{r, message = FALSE, warning = FALSE}
@@ -342,7 +343,7 @@ Note: Even though terra provides vect() function to handle vector data, sf packa
 
 ```{r overlay, message = FALSE, warning = FALSE}
 ###############################################################
-#~~~ PART 1.4.1: Importing and visualizing shapefiles
+#~~~  Importing and visualizing shapefiles
 library(sf)  
 
 # Import the shapefile of global IPCC climate reference regions (only for land) 
@@ -377,7 +378,7 @@ tmap_SM +
   tm_sf()
 
 ###############################################################
-#~~~ PART 1.4.2: Add spatial point to shapefile/ raster
+#~~~ Add spatial point to shapefile/ raster
 
 #~~ Create a spatial point for College Station, Texas
 college_station = st_sfc(
@@ -627,7 +628,7 @@ Global aridity raster has 5 classes with 5 indicating humid and 1 indicating hyp
 
 ```{r, message = FALSE, warning = FALSE}
 ###############################################################
-#~~~ PART 2.4.1: Convert a raster to a shapefile
+#~~~ Convert a raster to a shapefile
 aridity=rast("./SampleData-master/raster_files/aridity_36km.tif") #Global aridity
 
 # Convert raster to shapefile
@@ -679,7 +680,7 @@ We will create multilayer SpatRaster for `NDVI` and `SMAP SM` from the sample da
 
 ```{r brickoperation1, message = FALSE, warning = FALSE}
 ###############################################################
-#~~~ PART 3.1.1: Create and plot NDVI SpatRaster
+#~~~ Create and plot NDVI SpatRaster
 library(terra)
 
 # Location of the NDVI raster files
@@ -960,7 +961,7 @@ Let's try some layer-wise cell-statistics:
 
 ```{r arithmatic_operation, message = FALSE, warning = FALSE}
 ###############################################################
-#~~~ PART 3.3.1: Layer-wise cell-statistics 
+#~~~ Layer-wise cell-statistics 
 # Layer-wise Mean
 global(sub_ras_stack, mean, na.rm= T) # Mean of each raster layer. Try modal, median, min etc. 
 
@@ -992,7 +993,7 @@ Global cell-statistics can be calculated by converting SpatRaster to a **vector*
 
 ```{r, message = FALSE, warning = FALSE}
 ###############################################################
-#~~~ PART 3.3.2: Global cell-statistics
+#~~~ Global cell-statistics
 
 # By vectorizing the SpatRaster and finding statistics
 min_val=min(as.vector(sub_ras_stack), na.rm=T) 
@@ -1009,7 +1010,7 @@ Layer-wise arithmetic operations on SpatRaster:
 
 ```{r, message = FALSE, warning = FALSE}
 ###############################################################
-#~~~ PART 3.3.3: Layer-wise operations on SpatRaster
+#~~~ Layer-wise operations on SpatRaster
 
 # Arithmetic operations on SpatRaster are same as lists
 add = sub_ras_stack+10                  # Add a number to raster layers
