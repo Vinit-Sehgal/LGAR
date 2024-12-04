@@ -1,5 +1,4 @@
 data-visualization-and-geospatial-analysis-with-r
-large-scale-geospatial-analysis-2023
 import-libraries-and-sample-dataset
 raster-and-shapefile-visualization
 plotting-raster-data

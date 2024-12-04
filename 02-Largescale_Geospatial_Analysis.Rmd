@@ -30,9 +30,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ![](./SampleData-master/images/cover_v3.png){width=100%}
 </center>
 
-# Large-scale Geospatial Analysis (2023)
-***
-
 Taking examples from global satellite data in `gridded/raster format`, we will demonstrate several common geospatial operations like `projections`, `resampling`, `cropping`, `masking`, `spatial extraction` etc. using rasters, shapefiles, and spatial data frames. For a seamless analysis across different datatypes and platforms, conversion from/to different data formats like data frames, matrices, rasters, and structured data like `NetCDF` will be discussed. Advanced topics will include working with data cubes (`SpatRaster`), layer-wise operations on data cubes, cell-wise operations on raster time series by implementing user-defined functions with `global`, `app`, `tapp` and `lapp`. Parallel implementation of custom functions will be demonstrated for large-scale datasets.
 
 ***
