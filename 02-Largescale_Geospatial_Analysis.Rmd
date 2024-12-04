@@ -1,7 +1,7 @@
 ---
 title: "Data Visualization and Geospatial Analysis With R"
-author: "Vinit Sehgal & Debasish Mishra, Texas A&M University"
-date: "December/2024"
+author: "Vinit Sehgal (Louisiana State University) & Debasish Mishra (Texas A&M University)"
+date: "December, 2024"
 output:
   rmdformats::readthedown:
     self_contained: true
@@ -41,6 +41,16 @@ We will use global aridity estimates (from [Global Aridity and PET Database] (<h
 
 The codes are tested on R `version 4.2.3- Shortstop Beagle` and `version 4.1.2 - Bird Hippie`.
 To update, see section 5.2.
+
+***
+
+**Instructors**:
+
+*Vinit Sehgal* is an Assistant Professor of Soil Physics at the LSU AgCenter, School of Plant, Environmental, and Soil Sciences. His research is deeply rooted in soil science and hydrology, focusing on the intricate dynamics of soil moisture and its critical role in agricultural and environmental sustainability.
+
+*Debasish Mishra* is a PhD student in the Department of Biological & Agricultural Engineering at Texas A&M University. His research focuses on land-atmospheric interactions and its critical role in guiding ecosystem resilience.
+
+*Leah Kocian* is a PhD student in the Department of Biological & Agricultural Engineering at Texas A&M University. Her research focuses on contaminant transport in Urban settings, particularly relating to carcinogens and micro-plastics.
 
 ***
 # Import libraries and sample dataset
@@ -1508,9 +1518,8 @@ for (year_id in year_first:year_last) {
 Follow [Part 1: Data Visualization with R](https://rpubs.com/Vinit_Sehgal/datavizR21) for a refresher on ggplot2, wordcloud, OfficeR and text mining.
 
 ***
-<center> __Data Visualization and Geospatial Analysis With R (2023)__ </center>
-<center> Vinit Sehgal | Debasish Mishra </center>
-<center> Texas A&M University </center>
+<center> __Data Visualization and Geospatial Analysis With R__ </center>
+<center> Vinit Sehgal, Louisiana State University </center>
+<center> Debasish Mishra, Texas A&M University </center>
 <center> Correspondence: _vinit@tamu.edu_ (https://orcid.org/0000-0002-8837-5864) </center>
-<center> ![](./SampleData-master/images/TAMU_Box-Stack.jpg){width=15%} </center>
 <center> ![](./SampleData-master/images/CC_license.png){width=10%} </center>

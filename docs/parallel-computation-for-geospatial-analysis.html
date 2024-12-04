@@ -20,7 +20,7 @@
   
   
 
-<meta name="author" content="Vinit Sehgal &amp; Debasish Mishra, Texas A&amp;M University" />
+<meta name="author" content="Vinit Sehgal (Louisiana State University) &amp; Debasish Mishra (Texas A&amp;M University)" />
 
 
 
@@ -61,7 +61,7 @@
 <script src="libs/leaflet-binding-2.1.1/leaflet.js"></script>
 <script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
 <script src="libs/leaflet-providers-plugin-2.1.1/leaflet-providers-plugin.js"></script>
-<script src="libs/brick(sm)_3d2f76-1/data_stars_bricksm59eb76.txt"></script>
+<script src="libs/brick(sm)_354d08-1/data_stars_bricksm87afd5.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
@@ -294,7 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb113-31"><a href="parallel-computation-for-geospatial-analysis.html#cb113-31" tabindex="-1"></a></span>
 <span id="cb113-32"><a href="parallel-computation-for-geospatial-analysis.html#cb113-32" tabindex="-1"></a><span class="fu">names</span>(stat_brk)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Mean&quot;</span>, <span class="st">&quot;Variance&quot;</span>, <span class="st">&quot;Skewness&quot;</span>)      <span class="co"># Add layer names</span></span>
 <span id="cb113-33"><a href="parallel-computation-for-geospatial-analysis.html#cb113-33" tabindex="-1"></a><span class="fu">toc</span>()</span></code></pre></div>
-<pre><code>## 8.35 sec elapsed</code></pre>
+<pre><code>## 7.89 sec elapsed</code></pre>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="parallel-computation-for-geospatial-analysis.html#cb115-1" tabindex="-1"></a><span class="fu">plot</span>(stat_brk, <span class="at">col=</span>mypal2)</span></code></pre></div>
 <p><img src="bookdownproj_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 </div>
@@ -350,7 +350,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb121-9"><a href="parallel-computation-for-geospatial-analysis.html#cb121-9" tabindex="-1"></a><span class="fu">tic</span>()</span>
 <span id="cb121-10"><a href="parallel-computation-for-geospatial-analysis.html#cb121-10" tabindex="-1"></a>outStat<span class="ot">=</span> <span class="fu">future_lapply</span>(rasList, my_fun)</span>
 <span id="cb121-11"><a href="parallel-computation-for-geospatial-analysis.html#cb121-11" tabindex="-1"></a><span class="fu">toc</span>()</span></code></pre></div>
-<pre><code>## 44.91 sec elapsed</code></pre>
+<pre><code>## 43.86 sec elapsed</code></pre>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="parallel-computation-for-geospatial-analysis.html#cb123-1" tabindex="-1"></a><span class="co"># Check output for one layer</span></span>
 <span id="cb123-2"><a href="parallel-computation-for-geospatial-analysis.html#cb123-2" tabindex="-1"></a><span class="co"># outStat[[2]]</span></span></code></pre></div>
 </div>
