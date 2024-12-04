@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Data Visualization and Geospatial Analysis With R</title>
-  <meta name="description" content="Page not found | Data Visualization and Geospatial Analysis With R" />
+  <title>Chapter 10 Supplementary material | Data Visualization and Geospatial Analysis With R</title>
+  <meta name="description" content="Chapter 10 Supplementary material | Data Visualization and Geospatial Analysis With R" />
   <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Data Visualization and Geospatial Analysis With R" />
+  <meta property="og:title" content="Chapter 10 Supplementary material | Data Visualization and Geospatial Analysis With R" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Data Visualization and Geospatial Analysis With R" />
+  <meta name="twitter:title" content="Chapter 10 Supplementary material | Data Visualization and Geospatial Analysis With R" />
   
   
   
@@ -29,7 +29,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
+<link rel="prev" href="parallel-computation-for-geospatial-analysis.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -238,18 +238,112 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="supplementary-material" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Chapter 10</span> Supplementary material<a href="supplementary-material.html#supplementary-material" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<hr />
+<div id="exporting-spatraster-to-netcdf-data" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Exporting SpatRaster to NetCDF Data<a href="supplementary-material.html#exporting-spatraster-to-netcdf-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When working on a project, you will often need to use the same SpatRaster over and over again. Hence, its convenient to store the model outputs as NetCDFs which can be imported as SpatRaster later for further analysis. Here we will look at the method to export SpatRaster to NetCDF.</p>
+<hr />
+<p><strong>Expert Note:</strong>
+<strong>a) NetCDF write speeds are significantly slower on cloud platforms like GoogleDrive or OneDrive. Hence, its recommended to export NetCDF files to local disk for faster write speeds.</strong>
+<strong>b) Before writing NetCDF file, convert your list of SpatRaster (if any) to one Multi-layer SpatRaster for faster write speed.</strong></p>
+<hr />
+<pre><code>library(ncdf4)
+
+rb=rast(&quot;./SampleData-master/SMAP_L3_USA.nc&quot;)
+r=rb[[1]] # raster taken from a first layer of a stack
+xy&lt;-xyFromCell(r,1:length(r)) #matrix of logitudes (x) and latitudes(y)
+lon=unique(xy[,1])
+lat=unique(xy[,2])
+ 
+
+# first we write the netcdf file to disk
+terra::writeCDF(rb,                               #SpatRaster
+         file.path(tempdir(), &quot;test.nc&quot;),         #Output filename
+         overwrite=TRUE,
+         varname=&quot;soil_moisture&quot;,
+         unit=&quot;[m3/m3]&quot;,
+         longname=&quot;SMAPL3-V7 SM, 2-day interpolated, 36KM&quot;,
+         zname=&#39;time&#39;)
+</code></pre>
+</div>
+<div id="updating-r-using-rstudio" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> Updating R using RStudio<a href="supplementary-material.html#updating-r-using-rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The operations in this tutorial are based on R <code>version 4.1.1- Kick Things</code> and <code>version 4.0.3 - Bunny-Wunnies Freak Out</code>. If necessary, update R from Rstudio using the <code>updateR</code> function from the <code>installr</code> package.</p>
+<pre><code>install.packages(&quot;installr&quot;)
+library(installr)
+updateR(keep_install_file=TRUE)</code></pre>
+</div>
+<div id="changing-temp-files-for-large-storage" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Changing Temp files for large storage<a href="supplementary-material.html#changing-temp-files-for-large-storage" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When processing large rasters/ vectors, you may run out of storage space due to large size of temporary files being generated during processing. Changing temp directory to an external disk with larger storage helps in such case. Follow this discussion for more details: <a href="https://stackoverflow.com/questions/17107206/change-temporary-directory" class="uri">https://stackoverflow.com/questions/17107206/change-temporary-directory</a>.</p>
+</div>
+<div id="resampling-with-rgdalwarp" class="section level2 hasAnchor" number="10.4">
+<h2><span class="header-section-number">10.4</span> Resampling with rgdalwarp<a href="supplementary-material.html#resampling-with-rgdalwarp" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When processing high resolution rasters, you may run out of storage space when using the <code>terra::resample()</code>. One way to get around it is by using <code>rgdalwarp()</code>. It is an R wrapper for the ‘gdalwarp’ function that is part of the Geospatial Data Abstraction Library (GDAL), and provides utility for reprojecting rasters into any valid projection. For more details read: <a href="https://www.rdocumentation.org/packages/gdalUtils/versions/2.0.3.2/topics/gdalwarp" class="uri">https://www.rdocumentation.org/packages/gdalUtils/versions/2.0.3.2/topics/gdalwarp</a>.
+<br>
+The following is an example for resampling MODIS ET (500m) data to 25km resolution.</p>
+<pre><code>library(rgdal); library(gdalUtils)
+
+###Resampling with gdalwarp():
+
+#Run the code for the year:
+
+for (year_id in year_first:year_last) {
+
+ #Create a date/doy list:
+
+  Filenames_tif &lt;- list.files(&quot;~/.../MODIS_ET&quot;, full.names = F)
+  Files_subset &lt;- str_subset(Filenames_tif, str_c(&quot;_doy&quot;,year_id))
+  
+  #Extract Dates from file names
+  doy_list &lt;- str_extract(Files_subset, str_sub(Files_subset, 30, 32))
+  
+  for (doyRun in seq_along(doy_list)) {
+   #Resample the data
+   Resampled_Raster&lt;- gdalwarp(
+     #source file name
+     srcfile = str_c(&#39;~/.../MCD15A2H.061_Lai_500m_doy&#39;,year_id,doy_list[doyRun],&#39;_aid0001.tif&#39;), 
+     #destination file name
+     dstfile = str_c(&#39;~/.../MCD15A2H.061_Lai_25km_doy&#39;,year_id,doy_list[doyRun],&#39;_aid0001.tif&#39;),
+     srcnodata = c(&quot;249&quot;:&quot;255&quot;),  #set nodata values
+     tr = c(0.25, 0.25),          #output file resolution: Resampling to 0.25x0.25 degrees (~25km)
+     te = c(-180,-90,180,90),     #georeferenced extents of output file
+     overwrite=TRUE, 
+     output_Raster = TRUE)
+   }
+}</code></pre>
+<hr />
+<p>Follow <a href="https://rpubs.com/Vinit_Sehgal/datavizR21">Part 1: Data Visualization with R</a> for a refresher on ggplot2, wordcloud, OfficeR and text mining.</p>
+<hr />
+<center>
+<strong>Data Visualization and Geospatial Analysis With R (2023)</strong>
+</center>
+<center>
+Vinit Sehgal | Debasish Mishra
+</center>
+<center>
+Texas A&amp;M University
+</center>
+<center>
+Correspondence: <em><a href="mailto:vinit@tamu.edu" class="email">vinit@tamu.edu</a></em> (<a href="https://orcid.org/0000-0002-8837-5864" class="uri">https://orcid.org/0000-0002-8837-5864</a>)
+</center>
+<center>
+<img src="SampleData-master/images/TAMU_Box-Stack.jpg" style="width:15.0%" />
+</center>
+<center>
+<img src="SampleData-master/images/CC_license.png" style="width:10.0%" />
+</center>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
+<a href="parallel-computation-for-geospatial-analysis.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
@@ -281,7 +375,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/Vinit-Sehgal/lgar/edit/main/%s",
+"link": "https://github.com/Vinit-Sehgal/lgar/edit/main/04-Largescale_geospatial_analysis_2023_v2.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -289,7 +383,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/Vinit-Sehgal/lgar/blob/main/%s",
+"link": "https://github.com/Vinit-Sehgal/lgar/blob/main/04-Largescale_geospatial_analysis_2023_v2.Rmd",
 "text": null
 },
 "download": ["bookdownproj.pdf"],

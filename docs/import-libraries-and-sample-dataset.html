@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Data Visualization and Geospatial Analysis With R</title>
-  <meta name="description" content="Page not found | Data Visualization and Geospatial Analysis With R" />
+  <title>Chapter 5 Import libraries and sample dataset | Data Visualization and Geospatial Analysis With R</title>
+  <meta name="description" content="Chapter 5 Import libraries and sample dataset | Data Visualization and Geospatial Analysis With R" />
   <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Data Visualization and Geospatial Analysis With R" />
+  <meta property="og:title" content="Chapter 5 Import libraries and sample dataset | Data Visualization and Geospatial Analysis With R" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Data Visualization and Geospatial Analysis With R" />
+  <meta name="twitter:title" content="Chapter 5 Import libraries and sample dataset | Data Visualization and Geospatial Analysis With R" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="large-scale-geospatial-analysis-2023.html"/>
+<link rel="next" href="raster-and-shapefile-visualization.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -238,19 +238,78 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="import-libraries-and-sample-dataset" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Import libraries and sample dataset<a href="import-libraries-and-sample-dataset.html#import-libraries-and-sample-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<hr />
+We will begin by loading necessary libraries.
+The sample dataset for this excercise can be downloaded manually from <code>GitHub</code> by accessing <code>https://github.com/Vinit-Sehgal/SampleData</code> <br>
+<center>
+<img src="SampleData-master/images/git_repo.png" style="width:60.0%" />
+</center>
+<p><br></p>
+<p>Alternatively, use the following code to download and extract the sample data from <code>GitHub</code> repository.</p>
+<p>Install all necessary packages (Run once).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="import-libraries-and-sample-dataset.html#cb1-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
+<span id="cb1-2"><a href="import-libraries-and-sample-dataset.html#cb1-2" tabindex="-1"></a><span class="co">#~~~ Load required libraries</span></span>
+<span id="cb1-3"><a href="import-libraries-and-sample-dataset.html#cb1-3" tabindex="-1"></a>lib_names<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;terra&quot;</span>, <span class="st">&quot;tidyterra&quot;</span>, <span class="st">&quot;cetcolor&quot;</span>, <span class="st">&quot;scico&quot;</span>, <span class="st">&quot;tmap&quot;</span>,    </span>
+<span id="cb1-4"><a href="import-libraries-and-sample-dataset.html#cb1-4" tabindex="-1"></a>            <span class="st">&quot;gifski&quot;</span>, <span class="st">&quot;lubridate&quot;</span>, <span class="co">#&quot;Rcpp&quot;, </span></span>
+<span id="cb1-5"><a href="import-libraries-and-sample-dataset.html#cb1-5" tabindex="-1"></a>            <span class="st">&quot;raster&quot;</span>,<span class="st">&quot;ggplot2&quot;</span>,<span class="st">&quot;unikn&quot;</span>,<span class="st">&quot;mapview&quot;</span>,</span>
+<span id="cb1-6"><a href="import-libraries-and-sample-dataset.html#cb1-6" tabindex="-1"></a>            <span class="st">&quot;gridExtra&quot;</span>,<span class="st">&quot;rgdal&quot;</span>,<span class="st">&quot;fields&quot;</span>,</span>
+<span id="cb1-7"><a href="import-libraries-and-sample-dataset.html#cb1-7" tabindex="-1"></a>            <span class="st">&quot;RColorBrewer&quot;</span>,<span class="st">&quot;ncdf4&quot;</span>,<span class="st">&quot;rasterVis&quot;</span>,</span>
+<span id="cb1-8"><a href="import-libraries-and-sample-dataset.html#cb1-8" tabindex="-1"></a>            <span class="st">&quot;rcartocolor&quot;</span>,<span class="st">&quot;pacman&quot;</span>,<span class="st">&quot;purrr&quot;</span>,<span class="st">&quot;moments&quot;</span>,<span class="st">&quot;tictoc&quot;</span>, </span>
+<span id="cb1-9"><a href="import-libraries-and-sample-dataset.html#cb1-9" tabindex="-1"></a>            <span class="st">&quot;sf&quot;</span>, <span class="st">&quot;sp&quot;</span>, <span class="st">&quot;exactextractr&quot;</span>,<span class="st">&quot;readxl&quot;</span>, </span>
+<span id="cb1-10"><a href="import-libraries-and-sample-dataset.html#cb1-10" tabindex="-1"></a>            <span class="st">&quot;snow&quot;</span>,<span class="st">&quot;future.apply&quot;</span>,<span class="st">&quot;parallel&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="import-libraries-and-sample-dataset.html#cb2-1" tabindex="-1"></a><span class="co"># Load necessary packages</span></span>
+<span id="cb2-2"><a href="import-libraries-and-sample-dataset.html#cb2-2" tabindex="-1"></a><span class="fu">invisible</span>(suppressMessages</span>
+<span id="cb2-3"><a href="import-libraries-and-sample-dataset.html#cb2-3" tabindex="-1"></a>          (suppressWarnings</span>
+<span id="cb2-4"><a href="import-libraries-and-sample-dataset.html#cb2-4" tabindex="-1"></a>            (lapply</span>
+<span id="cb2-5"><a href="import-libraries-and-sample-dataset.html#cb2-5" tabindex="-1"></a>              (lib_names, require, <span class="at">character.only =</span> T))))</span>
+<span id="cb2-6"><a href="import-libraries-and-sample-dataset.html#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="import-libraries-and-sample-dataset.html#cb2-7" tabindex="-1"></a><span class="co"># An easy way to load multiple packages is through pacman::p_load</span></span>
+<span id="cb2-8"><a href="import-libraries-and-sample-dataset.html#cb2-8" tabindex="-1"></a><span class="co"># pacman::p_load(&quot;raster&quot;,&quot;ggplot2&quot;,&quot;unikn&quot;,&quot;mapview&quot;,</span></span>
+<span id="cb2-9"><a href="import-libraries-and-sample-dataset.html#cb2-9" tabindex="-1"></a><span class="co">#             &quot;gridExtra&quot;,&quot;rgdal&quot;,&quot;fields&quot;,</span></span>
+<span id="cb2-10"><a href="import-libraries-and-sample-dataset.html#cb2-10" tabindex="-1"></a><span class="co">#             &quot;RColorBrewer&quot;,&quot;ncdf4&quot;,&quot;rasterVis&quot;, &quot;moments&quot;, &quot;tictoc&quot;, &quot;tibble&quot;)</span></span>
+<span id="cb2-11"><a href="import-libraries-and-sample-dataset.html#cb2-11" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="import-libraries-and-sample-dataset.html#cb2-12" tabindex="-1"></a><span class="co"># Update packages if they are already installed</span></span>
+<span id="cb2-13"><a href="import-libraries-and-sample-dataset.html#cb2-13" tabindex="-1"></a><span class="co"># update.package(ask = FALSE)</span></span></code></pre></div>
+<p><em>Note</em>: The legacy R spatial infrastructure packages - <code>maptools</code>, <code>rgdal</code> and <code>rgeos</code> have been archived by CRAN from October 16, 2023; these retired packages will continue to be available as source packages on <a href="https://cran.r-project.org/src/contrib/Archive" class="uri">https://cran.r-project.org/src/contrib/Archive</a> but won’t undergo any further development.
+<br>
+We will now download the workshop repository, which contains all data we will use for this exercise.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="import-libraries-and-sample-dataset.html#cb3-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
+<span id="cb3-2"><a href="import-libraries-and-sample-dataset.html#cb3-2" tabindex="-1"></a><span class="co">#~~~ Import sample data from GitHub repository</span></span>
+<span id="cb3-3"><a href="import-libraries-and-sample-dataset.html#cb3-3" tabindex="-1"></a><span class="fu">download.file</span>(<span class="at">url =</span> <span class="st">&quot;https://github.com/Vinit-Sehgal/SampleData/archive/master.zip&quot;</span>,</span>
+<span id="cb3-4"><a href="import-libraries-and-sample-dataset.html#cb3-4" tabindex="-1"></a><span class="at">destfile =</span> <span class="st">&quot;SampleData-master.zip&quot;</span>)    <span class="co"># Download &quot;.Zip&quot;</span></span>
+<span id="cb3-5"><a href="import-libraries-and-sample-dataset.html#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="import-libraries-and-sample-dataset.html#cb3-6" tabindex="-1"></a><span class="co"># Unzip the downloaded .zip file</span></span>
+<span id="cb3-7"><a href="import-libraries-and-sample-dataset.html#cb3-7" tabindex="-1"></a><span class="fu">unzip</span>(<span class="at">zipfile =</span> <span class="st">&quot;SampleData-master.zip&quot;</span>)</span>
+<span id="cb3-8"><a href="import-libraries-and-sample-dataset.html#cb3-8" tabindex="-1"></a><span class="co"># getwd()                           # Current working directory</span></span>
+<span id="cb3-9"><a href="import-libraries-and-sample-dataset.html#cb3-9" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">&quot;./SampleData-master&quot;</span>)   <span class="co"># List folder contents</span></span></code></pre></div>
+<pre><code>##  [1] &quot;CMIP_land&quot;                               
+##  [2] &quot;functions&quot;                               
+##  [3] &quot;images&quot;                                  
+##  [4] &quot;Largescale_geospatial_analysis_2022.html&quot;
+##  [5] &quot;Largescale_geospatial_analysis_2023.html&quot;
+##  [6] &quot;location_points.xlsx&quot;                    
+##  [7] &quot;ne_10m_coastline&quot;                        
+##  [8] &quot;raster_files&quot;                            
+##  [9] &quot;README.md&quot;                               
+## [10] &quot;sample_pdfs&quot;                             
+## [11] &quot;SMAP_L3_USA.nc&quot;                          
+## [12] &quot;SMAPL4_H5&quot;                               
+## [13] &quot;SMAPL4_rasters&quot;                          
+## [14] &quot;SMOS_nc&quot;                                 
+## [15] &quot;USA_states&quot;                              
+## [16] &quot;Workbook_DVGAR21-Part1.html&quot;             
+## [17] &quot;Workbook_DVGAR21-Part2.html&quot;</code></pre>
+<hr />
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="large-scale-geospatial-analysis-2023.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="raster-and-shapefile-visualization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -281,7 +340,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/Vinit-Sehgal/lgar/edit/main/%s",
+"link": "https://github.com/Vinit-Sehgal/lgar/edit/main/04-Largescale_geospatial_analysis_2023_v2.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -289,7 +348,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/Vinit-Sehgal/lgar/blob/main/%s",
+"link": "https://github.com/Vinit-Sehgal/lgar/blob/main/04-Largescale_geospatial_analysis_2023_v2.Rmd",
 "text": null
 },
 "download": ["bookdownproj.pdf"],

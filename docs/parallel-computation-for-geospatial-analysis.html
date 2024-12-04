@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Parallel computation for geospatial analysis | Data Visualization and Geospatial Analysis With R</title>
+  <meta name="description" content="Chapter 9 Parallel computation for geospatial analysis | Data Visualization and Geospatial Analysis With R" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Parallel computation for geospatial analysis | Data Visualization and Geospatial Analysis With R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Parallel computation for geospatial analysis | Data Visualization and Geospatial Analysis With R" />
+  
+  
+  
+
+<meta name="author" content="Vinit Sehgal &amp; Debasish Mishra, Texas A&amp;M University" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="data-cubes-or-spatraster.html"/>
+<link rel="next" href="supplementary-material.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.1.1/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.1.1/leaflet-providers-plugin.js"></script>
+<script src="libs/brick(sm)_ab19c6-1/data_stars_bricksm5aefd4.txt"></script>
+<script src="libs/joda-0.0.1/joda.js"></script>
+<script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Large-scale Geospatial Analysis in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Data Visualization and Geospatial Analysis With R</a></li>
+<li class="chapter" data-level="2" data-path="the-pool-of-tears.html"><a href="the-pool-of-tears.html"><i class="fa fa-check"></i><b>2</b> The pool of tears</a></li>
+<li class="chapter" data-level="3" data-path="a-caucus-race-and-a-long-tale.html"><a href="a-caucus-race-and-a-long-tale.html"><i class="fa fa-check"></i><b>3</b> A caucus-race and a long tale</a></li>
+<li class="chapter" data-level="4" data-path="large-scale-geospatial-analysis-2023.html"><a href="large-scale-geospatial-analysis-2023.html"><i class="fa fa-check"></i><b>4</b> Large-scale Geospatial Analysis (2023)</a></li>
+<li class="chapter" data-level="5" data-path="import-libraries-and-sample-dataset.html"><a href="import-libraries-and-sample-dataset.html"><i class="fa fa-check"></i><b>5</b> Import libraries and sample dataset</a></li>
+<li class="chapter" data-level="6" data-path="raster-and-shapefile-visualization.html"><a href="raster-and-shapefile-visualization.html"><i class="fa fa-check"></i><b>6</b> Raster and shapefile visualization</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="raster-and-shapefile-visualization.html"><a href="raster-and-shapefile-visualization.html#plotting-raster-data"><i class="fa fa-check"></i><b>6.1</b> Plotting raster data</a></li>
+<li class="chapter" data-level="6.2" data-path="raster-and-shapefile-visualization.html"><a href="raster-and-shapefile-visualization.html#customizing-terra-plot-options"><i class="fa fa-check"></i><b>6.2</b> Customizing <code>terra</code> plot options</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="raster-and-shapefile-visualization.html"><a href="raster-and-shapefile-visualization.html#scientific-color-palettes"><i class="fa fa-check"></i><b>6.2.1</b> Scientific Color palettes</a></li>
+<li class="chapter" data-level="6.2.2" data-path="raster-and-shapefile-visualization.html"><a href="raster-and-shapefile-visualization.html#customize-terra-plots"><i class="fa fa-check"></i><b>6.2.2</b> Customize <code>terra</code> plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="raster-and-shapefile-visualization.html"><a href="raster-and-shapefile-visualization.html#plotting-raster-data-using-tidyterra"><i class="fa fa-check"></i><b>6.3</b> Plotting raster data using <code>tidyterra</code></a></li>
+<li class="chapter" data-level="6.4" data-path="raster-and-shapefile-visualization.html"><a href="raster-and-shapefile-visualization.html#plotting-vector-data"><i class="fa fa-check"></i><b>6.4</b> Plotting vector data</a></li>
+<li class="chapter" data-level="6.5" data-path="raster-and-shapefile-visualization.html"><a href="raster-and-shapefile-visualization.html#reprojection-of-rasters-using-terraproject"><i class="fa fa-check"></i><b>6.5</b> Reprojection of rasters using <code>terra::project</code></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="geospatial-operations-on-rastervector-data.html"><a href="geospatial-operations-on-rastervector-data.html"><i class="fa fa-check"></i><b>7</b> Geospatial operations on raster/vector data</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="geospatial-operations-on-rastervector-data.html"><a href="geospatial-operations-on-rastervector-data.html#raster-resampling"><i class="fa fa-check"></i><b>7.1</b> Raster resampling</a></li>
+<li class="chapter" data-level="7.2" data-path="geospatial-operations-on-rastervector-data.html"><a href="geospatial-operations-on-rastervector-data.html#raster-summary-statistics"><i class="fa fa-check"></i><b>7.2</b> Raster summary statistics</a></li>
+<li class="chapter" data-level="7.3" data-path="geospatial-operations-on-rastervector-data.html"><a href="geospatial-operations-on-rastervector-data.html#summarizing-rasters-using-shapefles"><i class="fa fa-check"></i><b>7.3</b> Summarizing rasters using shapefles</a></li>
+<li class="chapter" data-level="7.4" data-path="geospatial-operations-on-rastervector-data.html"><a href="geospatial-operations-on-rastervector-data.html#diy-summarize-raster-using-classified-raster"><i class="fa fa-check"></i><b>7.4</b> DIY: Summarize raster using classified raster</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html"><i class="fa fa-check"></i><b>8</b> Data-cubes or SpatRaster</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html#create-subset-and-visualize-spatraster"><i class="fa fa-check"></i><b>8.1</b> Create, subset and visualize SpatRaster</a></li>
+<li class="chapter" data-level="8.2" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html#geospatial-operations-on-spatraster"><i class="fa fa-check"></i><b>8.2</b> Geospatial operations on SpatRaster</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html#time-series-extraction-from-spatraster"><i class="fa fa-check"></i><b>8.2.1</b> Time-series extraction from SpatRaster</a></li>
+<li class="chapter" data-level="8.2.2" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html#spatial-extractionsummary-from-spatraster"><i class="fa fa-check"></i><b>8.2.2</b> Spatial extraction/summary from SpatRaster</a></li>
+<li class="chapter" data-level="8.2.3" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html#crop-and-mask-spatraster"><i class="fa fa-check"></i><b>8.2.3</b> Crop and mask SpatRaster</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html#layer-wise-operations-on-spatraster"><i class="fa fa-check"></i><b>8.3</b> Layer-wise operations on SpatRaster</a></li>
+<li class="chapter" data-level="8.4" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html#cell-wise-operations-with-app-lapp-tapp"><i class="fa fa-check"></i><b>8.4</b> Cell-wise operations with <code>app</code>, <code>lapp</code>, <code>tapp</code></a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html#app-cell-wise-operation-on-all-layers"><i class="fa fa-check"></i><b>8.4.1</b> app: Cell-wise operation on all layers</a></li>
+<li class="chapter" data-level="8.4.2" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html#tapp-cell-wise-operation-on-layer-groups"><i class="fa fa-check"></i><b>8.4.2</b> tapp: Cell-wise operation on layer groups</a></li>
+<li class="chapter" data-level="8.4.3" data-path="data-cubes-or-spatraster.html"><a href="data-cubes-or-spatraster.html#lapp-layers-as-function-arguments"><i class="fa fa-check"></i><b>8.4.3</b> lapp: layers as function arguments</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="parallel-computation-for-geospatial-analysis.html"><a href="parallel-computation-for-geospatial-analysis.html"><i class="fa fa-check"></i><b>9</b> Parallel computation for geospatial analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="parallel-computation-for-geospatial-analysis.html"><a href="parallel-computation-for-geospatial-analysis.html#cellwise-implimentation-of-functions"><i class="fa fa-check"></i><b>9.1</b> Cellwise implimentation of functions</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="parallel-computation-for-geospatial-analysis.html"><a href="parallel-computation-for-geospatial-analysis.html#apply-custom-function-to-pixel-time-series"><i class="fa fa-check"></i><b>9.1.1</b> Apply custom function to pixel time series</a></li>
+<li class="chapter" data-level="9.1.2" data-path="parallel-computation-for-geospatial-analysis.html"><a href="parallel-computation-for-geospatial-analysis.html#best-practices-for-large-scale-operations"><i class="fa fa-check"></i><b>9.1.2</b> Best practices for large-scale operations</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="parallel-computation-for-geospatial-analysis.html"><a href="parallel-computation-for-geospatial-analysis.html#layerwise-implimentation-of-functions"><i class="fa fa-check"></i><b>9.2</b> Layerwise implimentation of functions</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="parallel-computation-for-geospatial-analysis.html"><a href="parallel-computation-for-geospatial-analysis.html#data-cubes-as-lists"><i class="fa fa-check"></i><b>9.2.1</b> Data cubes as lists</a></li>
+<li class="chapter" data-level="9.2.2" data-path="parallel-computation-for-geospatial-analysis.html"><a href="parallel-computation-for-geospatial-analysis.html#blockwise-summary-of-feature-extracted-data"><i class="fa fa-check"></i><b>9.2.2</b> Blockwise summary of feature extracted data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="supplementary-material.html"><a href="supplementary-material.html"><i class="fa fa-check"></i><b>10</b> Supplementary material</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="supplementary-material.html"><a href="supplementary-material.html#exporting-spatraster-to-netcdf-data"><i class="fa fa-check"></i><b>10.1</b> Exporting SpatRaster to NetCDF Data</a></li>
+<li class="chapter" data-level="10.2" data-path="supplementary-material.html"><a href="supplementary-material.html#updating-r-using-rstudio"><i class="fa fa-check"></i><b>10.2</b> Updating R using RStudio</a></li>
+<li class="chapter" data-level="10.3" data-path="supplementary-material.html"><a href="supplementary-material.html#changing-temp-files-for-large-storage"><i class="fa fa-check"></i><b>10.3</b> Changing Temp files for large storage</a></li>
+<li class="chapter" data-level="10.4" data-path="supplementary-material.html"><a href="supplementary-material.html#resampling-with-rgdalwarp"><i class="fa fa-check"></i><b>10.4</b> Resampling with rgdalwarp</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href=https://soil-hydrology.com/" target="blank">https://soil-hydrology.com/</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Visualization and Geospatial Analysis With R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="parallel-computation-for-geospatial-analysis" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Parallel computation for geospatial analysis<a href="parallel-computation-for-geospatial-analysis.html#parallel-computation-for-geospatial-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<hr />
+<p>Many computations in R can be made faster by the use of parallel computation. Generally, parallel computation is the simultaneous execution of different pieces of a larger computation across multiple computing processors or cores. The basic idea is that if you can execute a computation in X seconds on a single processor, then you should be able to execute it in X/n seconds on n processors.</p>
+<p>Such a speed-up might not possible because of overhead and various barriers to splitting up a problem into n pieces, but it is often possible to come close in simple problems. For more details read: <a href="https://www.linkedin.com/pulse/thinking-parallel-high-performance-computing-hpc-debasish-mishra" class="uri">https://www.linkedin.com/pulse/thinking-parallel-high-performance-computing-hpc-debasish-mishra</a>.</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="parallel-computation-for-geospatial-analysis.html#cb112-1" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb112-2"><a href="parallel-computation-for-geospatial-analysis.html#cb112-2" tabindex="-1"></a></span>
+<span id="cb112-3"><a href="parallel-computation-for-geospatial-analysis.html#cb112-3" tabindex="-1"></a>SMAPBrk<span class="ot">=</span><span class="fu">rast</span>(<span class="st">&quot;./SampleData-master/SMAP_L3_USA.nc&quot;</span>)</span>
+<span id="cb112-4"><a href="parallel-computation-for-geospatial-analysis.html#cb112-4" tabindex="-1"></a></span>
+<span id="cb112-5"><a href="parallel-computation-for-geospatial-analysis.html#cb112-5" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">mean</span>(SMAPBrk, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="at">asp=</span><span class="cn">NA</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<div id="cellwise-implimentation-of-functions" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Cellwise implimentation of functions<a href="parallel-computation-for-geospatial-analysis.html#cellwise-implimentation-of-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="apply-custom-function-to-pixel-time-series" class="section level3 hasAnchor" number="9.1.1">
+<h3><span class="header-section-number">9.1.1</span> Apply custom function to pixel time series<a href="parallel-computation-for-geospatial-analysis.html#apply-custom-function-to-pixel-time-series" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Once we have imported the <code>NetCDF</code> file as SpatRaster, we wil apply a slightly modified version of previously used function <code>my_fun</code> for calculating mean, variance and skewness for time series data for each cell in parallel. We will use <code>terra::app</code> function to apply <code>my_fun</code> on SpatRaster in parallel.</p>
+<hr />
+<p><strong>Expert Note: For seamless implementation of function in parallel mode, care must be taken that all necessary are accessible to ALL cores and error exceptions are handles appropriately. We will modify <code>my_fun</code> slightly to highlight what it means in practice.</strong></p>
+<hr />
+<ol style="list-style-type: decimal">
+<li>We will convert input <code>x</code> to a numeric array</li>
+<li>We will remove <code>NA</code> values from dataset before calculation</li>
+<li>We will use <code>minSamp</code> to fix minimum sample counts for calculation</li>
+<li>We will use <code>tryCatch</code> to handle error exceptions</li>
+</ol>
+<p>The basic rules to avoid errors: (a) checking that inputs are correct, (b) avoiding non-standard evaluation, and (c) avoiding functions that can return different types of output.</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="parallel-computation-for-geospatial-analysis.html#cb113-1" tabindex="-1"></a><span class="co">#~~ We will make some changes in the custom function for mean, variance and skewness</span></span>
+<span id="cb113-2"><a href="parallel-computation-for-geospatial-analysis.html#cb113-2" tabindex="-1"></a>minSamp <span class="ot">=</span> <span class="dv">50</span>                           <span class="co"># Minimum assured samples for statistics</span></span>
+<span id="cb113-3"><a href="parallel-computation-for-geospatial-analysis.html#cb113-3" tabindex="-1"></a></span>
+<span id="cb113-4"><a href="parallel-computation-for-geospatial-analysis.html#cb113-4" tabindex="-1"></a>my_fun <span class="ot">=</span> <span class="cf">function</span>(x, minSamp, <span class="at">na.rm=</span><span class="cn">TRUE</span>){    </span>
+<span id="cb113-5"><a href="parallel-computation-for-geospatial-analysis.html#cb113-5" tabindex="-1"></a>  smTS<span class="ot">=</span><span class="fu">as.numeric</span>(<span class="fu">as.vector</span>(x))     <span class="co"># Convert dataset to numeric array</span></span>
+<span id="cb113-6"><a href="parallel-computation-for-geospatial-analysis.html#cb113-6" tabindex="-1"></a>  smTS<span class="ot">=</span><span class="fu">as.numeric</span>(<span class="fu">na.omit</span>(smTS))    <span class="co"># Omit NA values </span></span>
+<span id="cb113-7"><a href="parallel-computation-for-geospatial-analysis.html#cb113-7" tabindex="-1"></a>  </span>
+<span id="cb113-8"><a href="parallel-computation-for-geospatial-analysis.html#cb113-8" tabindex="-1"></a>  <span class="co"># Implement function with trycatch for catching exception </span></span>
+<span id="cb113-9"><a href="parallel-computation-for-geospatial-analysis.html#cb113-9" tabindex="-1"></a>  <span class="fu">tryCatch</span>(<span class="cf">if</span>(<span class="fu">length</span>(smTS)<span class="sc">&gt;</span>minSamp) {      <span class="co"># Apply minimum sample filter</span></span>
+<span id="cb113-10"><a href="parallel-computation-for-geospatial-analysis.html#cb113-10" tabindex="-1"></a>  </span>
+<span id="cb113-11"><a href="parallel-computation-for-geospatial-analysis.html#cb113-11" tabindex="-1"></a>  <span class="do">######## OPERATION BEGINS #############    </span></span>
+<span id="cb113-12"><a href="parallel-computation-for-geospatial-analysis.html#cb113-12" tabindex="-1"></a>  meanVal<span class="ot">=</span><span class="fu">mean</span>(smTS, <span class="at">na.rm=</span><span class="cn">TRUE</span>)              <span class="co"># Mean </span></span>
+<span id="cb113-13"><a href="parallel-computation-for-geospatial-analysis.html#cb113-13" tabindex="-1"></a>  varVal<span class="ot">=</span><span class="fu">var</span>(smTS, <span class="at">na.rm=</span><span class="cn">TRUE</span>)                <span class="co"># Variance</span></span>
+<span id="cb113-14"><a href="parallel-computation-for-geospatial-analysis.html#cb113-14" tabindex="-1"></a>  skewVal<span class="ot">=</span>moments<span class="sc">::</span><span class="fu">skewness</span>(smTS, <span class="at">na.rm=</span><span class="cn">TRUE</span>) <span class="co"># Skewness</span></span>
+<span id="cb113-15"><a href="parallel-computation-for-geospatial-analysis.html#cb113-15" tabindex="-1"></a>  output<span class="ot">=</span><span class="fu">c</span>(meanVal,varVal,skewVal)            <span class="co"># Combine all statistics</span></span>
+<span id="cb113-16"><a href="parallel-computation-for-geospatial-analysis.html#cb113-16" tabindex="-1"></a>  <span class="fu">return</span>(output)                              <span class="co"># Return output</span></span>
+<span id="cb113-17"><a href="parallel-computation-for-geospatial-analysis.html#cb113-17" tabindex="-1"></a>  <span class="do">######## OPERATION ENDS #############    </span></span>
+<span id="cb113-18"><a href="parallel-computation-for-geospatial-analysis.html#cb113-18" tabindex="-1"></a></span>
+<span id="cb113-19"><a href="parallel-computation-for-geospatial-analysis.html#cb113-19" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb113-20"><a href="parallel-computation-for-geospatial-analysis.html#cb113-20" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">rep</span>(<span class="cn">NA</span>,<span class="dv">3</span>))                         <span class="co"># If conditions !=TRUE, return array with NA</span></span>
+<span id="cb113-21"><a href="parallel-computation-for-geospatial-analysis.html#cb113-21" tabindex="-1"></a>  },<span class="at">error =</span><span class="cf">function</span>(e){<span class="fu">return</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">3</span>))})   <span class="co"># If Error== TRUE, return array with NA</span></span>
+<span id="cb113-22"><a href="parallel-computation-for-geospatial-analysis.html#cb113-22" tabindex="-1"></a>}</span>
+<span id="cb113-23"><a href="parallel-computation-for-geospatial-analysis.html#cb113-23" tabindex="-1"></a></span>
+<span id="cb113-24"><a href="parallel-computation-for-geospatial-analysis.html#cb113-24" tabindex="-1"></a></span>
+<span id="cb113-25"><a href="parallel-computation-for-geospatial-analysis.html#cb113-25" tabindex="-1"></a><span class="co"># Apply function to all grids in parallel</span></span>
+<span id="cb113-26"><a href="parallel-computation-for-geospatial-analysis.html#cb113-26" tabindex="-1"></a><span class="fu">tic</span>()</span>
+<span id="cb113-27"><a href="parallel-computation-for-geospatial-analysis.html#cb113-27" tabindex="-1"></a>stat_brk <span class="ot">=</span> <span class="fu">app</span>(SMAPBrk, </span>
+<span id="cb113-28"><a href="parallel-computation-for-geospatial-analysis.html#cb113-28" tabindex="-1"></a>               my_fun, </span>
+<span id="cb113-29"><a href="parallel-computation-for-geospatial-analysis.html#cb113-29" tabindex="-1"></a>               <span class="at">minSamp =</span> <span class="dv">50</span>,                           <span class="co"># Minimum assured samples for statistics</span></span>
+<span id="cb113-30"><a href="parallel-computation-for-geospatial-analysis.html#cb113-30" tabindex="-1"></a>               <span class="at">cores =</span>parallel<span class="sc">::</span><span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span>)     <span class="co"># Leave one core for housekeeping</span></span>
+<span id="cb113-31"><a href="parallel-computation-for-geospatial-analysis.html#cb113-31" tabindex="-1"></a></span>
+<span id="cb113-32"><a href="parallel-computation-for-geospatial-analysis.html#cb113-32" tabindex="-1"></a><span class="fu">names</span>(stat_brk)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Mean&quot;</span>, <span class="st">&quot;Variance&quot;</span>, <span class="st">&quot;Skewness&quot;</span>)      <span class="co"># Add layer names</span></span>
+<span id="cb113-33"><a href="parallel-computation-for-geospatial-analysis.html#cb113-33" tabindex="-1"></a><span class="fu">toc</span>()</span></code></pre></div>
+<pre><code>## 8.89 sec elapsed</code></pre>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="parallel-computation-for-geospatial-analysis.html#cb115-1" tabindex="-1"></a><span class="fu">plot</span>(stat_brk, <span class="at">col=</span>mypal2)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+</div>
+<div id="best-practices-for-large-scale-operations" class="section level3 hasAnchor" number="9.1.2">
+<h3><span class="header-section-number">9.1.2</span> Best practices for large-scale operations<a href="parallel-computation-for-geospatial-analysis.html#best-practices-for-large-scale-operations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Error handling is the art of debugging unexpected problems in your code. One easy solution when looping through customized functions is to include <code>print()</code> messages after each major operation which can help indicate where the error might be happening. Furthermore when dealing with large spatial data:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Try parallel operation on a smaller region before submitting large jobs to HPRC. Pixel-wise implementation of the function can help identify errors in the code. Convert the cropped region into a data frame and apply function to time series of each cell. If your code throws error, troubleshoot carefully for the series which generates the error.</li>
+</ol>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="parallel-computation-for-geospatial-analysis.html#cb116-1" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb116-2"><a href="parallel-computation-for-geospatial-analysis.html#cb116-2" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">ext</span>( <span class="fu">c</span>(<span class="sc">-</span><span class="dv">110</span>,<span class="sc">-</span><span class="dv">108</span>, <span class="dv">35</span>,<span class="dv">37</span>) )   <span class="co"># Sample 2X2 degree domain</span></span>
+<span id="cb116-3"><a href="parallel-computation-for-geospatial-analysis.html#cb116-3" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">as.polygons</span>(e)</span>
+<span id="cb116-4"><a href="parallel-computation-for-geospatial-analysis.html#cb116-4" tabindex="-1"></a><span class="fu">crs</span>(p) <span class="ot">&lt;-</span> <span class="st">&quot;EPSG:4326&quot;</span></span>
+<span id="cb116-5"><a href="parallel-computation-for-geospatial-analysis.html#cb116-5" tabindex="-1"></a></span>
+<span id="cb116-6"><a href="parallel-computation-for-geospatial-analysis.html#cb116-6" tabindex="-1"></a><span class="co"># Use this polygon to crop and mask the larger SpatRaster</span></span></code></pre></div>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Use <code>tryCatch</code> <strong>carefully</strong> as it may suppress legitimate errors as well, generating spurious results. Test the codes for smaller region without <code>tryCatch</code> to test the robustness of your codes.</li>
+</ol>
+<hr />
+<p><strong>Expert Note: Parallel computing may have some overheads upon creation and closing of clusters. A significant improvement in computing times using parallel techniques would be visible for large jobs.</strong></p>
+<hr />
+</div>
+</div>
+<div id="layerwise-implimentation-of-functions" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Layerwise implimentation of functions<a href="parallel-computation-for-geospatial-analysis.html#layerwise-implimentation-of-functions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="data-cubes-as-lists" class="section level3 hasAnchor" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> Data cubes as lists<a href="parallel-computation-for-geospatial-analysis.html#data-cubes-as-lists" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We will convert Spatraster to a list of rasters and then we will apply <code>my_fun</code> to each element of the list in parallel using <code>future_lapply</code>.</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="parallel-computation-for-geospatial-analysis.html#cb117-1" tabindex="-1"></a><span class="co"># Convert Spatraster to a list of rasters</span></span>
+<span id="cb117-2"><a href="parallel-computation-for-geospatial-analysis.html#cb117-2" tabindex="-1"></a>rasList<span class="ot">=</span><span class="fu">as.list</span>(SMAPBrk[[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]])           <span class="co">#What will happen if we pass rast(rasList)?</span></span>
+<span id="cb117-3"><a href="parallel-computation-for-geospatial-analysis.html#cb117-3" tabindex="-1"></a><span class="fu">length</span>(rasList)</span></code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="parallel-computation-for-geospatial-analysis.html#cb119-1" tabindex="-1"></a>my_fun <span class="ot">=</span> <span class="cf">function</span>(x){                </span>
+<span id="cb119-2"><a href="parallel-computation-for-geospatial-analysis.html#cb119-2" tabindex="-1"></a>  x<span class="ot">=</span><span class="fu">na.omit</span>(<span class="fu">as.numeric</span>(<span class="fu">as.vector</span>(x)))      <span class="co"># Create vector of numeric values of SpatRaster</span></span>
+<span id="cb119-3"><a href="parallel-computation-for-geospatial-analysis.html#cb119-3" tabindex="-1"></a>  meanVal<span class="ot">=</span>base<span class="sc">::</span><span class="fu">mean</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)        <span class="co"># Mean </span></span>
+<span id="cb119-4"><a href="parallel-computation-for-geospatial-analysis.html#cb119-4" tabindex="-1"></a>  varVal<span class="ot">=</span>stats<span class="sc">::</span><span class="fu">var</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>)         <span class="co"># Variance</span></span>
+<span id="cb119-5"><a href="parallel-computation-for-geospatial-analysis.html#cb119-5" tabindex="-1"></a>  skewVal<span class="ot">=</span>moments<span class="sc">::</span><span class="fu">skewness</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>) <span class="co"># Skewness</span></span>
+<span id="cb119-6"><a href="parallel-computation-for-geospatial-analysis.html#cb119-6" tabindex="-1"></a>  output<span class="ot">=</span><span class="fu">c</span>(meanVal,varVal,skewVal)         <span class="co"># Combine all statistics</span></span>
+<span id="cb119-7"><a href="parallel-computation-for-geospatial-analysis.html#cb119-7" tabindex="-1"></a>  <span class="fu">return</span>(output)                           <span class="co"># Return output</span></span>
+<span id="cb119-8"><a href="parallel-computation-for-geospatial-analysis.html#cb119-8" tabindex="-1"></a>} </span>
+<span id="cb119-9"><a href="parallel-computation-for-geospatial-analysis.html#cb119-9" tabindex="-1"></a></span>
+<span id="cb119-10"><a href="parallel-computation-for-geospatial-analysis.html#cb119-10" tabindex="-1"></a><span class="co"># Test the function for one raster</span></span>
+<span id="cb119-11"><a href="parallel-computation-for-geospatial-analysis.html#cb119-11" tabindex="-1"></a><span class="fu">my_fun</span>(rasList[[<span class="dv">2</span>]])</span></code></pre></div>
+<pre><code>## [1] 0.16793509 0.01222349 0.95460532</code></pre>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="parallel-computation-for-geospatial-analysis.html#cb121-1" tabindex="-1"></a><span class="co"># Apply function in parallel for all layers</span></span>
+<span id="cb121-2"><a href="parallel-computation-for-geospatial-analysis.html#cb121-2" tabindex="-1"></a><span class="fu">library</span>(parallel) </span>
+<span id="cb121-3"><a href="parallel-computation-for-geospatial-analysis.html#cb121-3" tabindex="-1"></a><span class="fu">library</span>(future.apply) </span>
+<span id="cb121-4"><a href="parallel-computation-for-geospatial-analysis.html#cb121-4" tabindex="-1"></a></span>
+<span id="cb121-5"><a href="parallel-computation-for-geospatial-analysis.html#cb121-5" tabindex="-1"></a><span class="co"># A multicore future: employ max core-1 for processing</span></span>
+<span id="cb121-6"><a href="parallel-computation-for-geospatial-analysis.html#cb121-6" tabindex="-1"></a><span class="fu">plan</span>(multicore, <span class="at">workers =</span> <span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb121-7"><a href="parallel-computation-for-geospatial-analysis.html#cb121-7" tabindex="-1"></a></span>
+<span id="cb121-8"><a href="parallel-computation-for-geospatial-analysis.html#cb121-8" tabindex="-1"></a><span class="co"># Deploy function in parallel </span></span>
+<span id="cb121-9"><a href="parallel-computation-for-geospatial-analysis.html#cb121-9" tabindex="-1"></a><span class="fu">tic</span>()</span>
+<span id="cb121-10"><a href="parallel-computation-for-geospatial-analysis.html#cb121-10" tabindex="-1"></a>outStat<span class="ot">=</span> <span class="fu">future_lapply</span>(rasList, my_fun)</span>
+<span id="cb121-11"><a href="parallel-computation-for-geospatial-analysis.html#cb121-11" tabindex="-1"></a><span class="fu">toc</span>()</span></code></pre></div>
+<pre><code>## 45.14 sec elapsed</code></pre>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="parallel-computation-for-geospatial-analysis.html#cb123-1" tabindex="-1"></a><span class="co"># Check output for one layer</span></span>
+<span id="cb123-2"><a href="parallel-computation-for-geospatial-analysis.html#cb123-2" tabindex="-1"></a><span class="co"># outStat[[2]]</span></span></code></pre></div>
+</div>
+<div id="blockwise-summary-of-feature-extracted-data" class="section level3 hasAnchor" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> Blockwise summary of feature extracted data<a href="parallel-computation-for-geospatial-analysis.html#blockwise-summary-of-feature-extracted-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In this section we will use a shapefile to extract cell values from a SpatRaster as a list using <code>exact_extract</code>. Summary statistics will be calculated in parallel using <code>my_fun</code> for dataset for each feature.</p>
+<center>
+<img src="SampleData-master/images/blockwiseoperation2022.png" style="width:90.0%" />
+</center>
+<p><br></p>
+<hr />
+<p><strong>Expert Note: Function <code>exactextractr::exact_extract</code> is faster and more suited for large applications compared to <code>terra::extract</code>. Although both perform similar operation with little changes in output format</strong></p>
+<hr />
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="parallel-computation-for-geospatial-analysis.html#cb124-1" tabindex="-1"></a><span class="co">#~ Extract feature data as data frame</span></span>
+<span id="cb124-2"><a href="parallel-computation-for-geospatial-analysis.html#cb124-2" tabindex="-1"></a><span class="fu">library</span>(exactextractr)</span>
+<span id="cb124-3"><a href="parallel-computation-for-geospatial-analysis.html#cb124-3" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb124-4"><a href="parallel-computation-for-geospatial-analysis.html#cb124-4" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb124-5"><a href="parallel-computation-for-geospatial-analysis.html#cb124-5" tabindex="-1"></a></span>
+<span id="cb124-6"><a href="parallel-computation-for-geospatial-analysis.html#cb124-6" tabindex="-1"></a>featureData<span class="ot">=</span><span class="fu">exact_extract</span>(SMAPBrk,   <span class="co"># Raster brick </span></span>
+<span id="cb124-7"><a href="parallel-computation-for-geospatial-analysis.html#cb124-7" tabindex="-1"></a>                <span class="fu">st_as_sf</span>(conus),     <span class="co"># Convert shapefile to sf (simple feature)</span></span>
+<span id="cb124-8"><a href="parallel-computation-for-geospatial-analysis.html#cb124-8" tabindex="-1"></a>                <span class="at">force_df =</span> <span class="cn">FALSE</span>,    <span class="co"># Output as a data.frame?</span></span>
+<span id="cb124-9"><a href="parallel-computation-for-geospatial-analysis.html#cb124-9" tabindex="-1"></a>                <span class="at">include_xy =</span> <span class="cn">FALSE</span>,  <span class="co"># Include cell lat-long in output?</span></span>
+<span id="cb124-10"><a href="parallel-computation-for-geospatial-analysis.html#cb124-10" tabindex="-1"></a>                <span class="at">fun =</span> <span class="cn">NULL</span>,          <span class="co"># Specify the function to apply for each feature extracted data</span></span>
+<span id="cb124-11"><a href="parallel-computation-for-geospatial-analysis.html#cb124-11" tabindex="-1"></a>                <span class="at">progress =</span> <span class="cn">TRUE</span>)     <span class="co"># Progressbar</span></span></code></pre></div>
+<pre><code>## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |=                                                                     |   2%
+  |                                                                            
+  |===                                                                   |   4%
+  |                                                                            
+  |====                                                                  |   6%
+  |                                                                            
+  |======                                                                |   8%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |=========                                                             |  12%
+  |                                                                            
+  |==========                                                            |  14%
+  |                                                                            
+  |===========                                                           |  16%
+  |                                                                            
+  |=============                                                         |  18%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |================                                                      |  22%
+  |                                                                            
+  |=================                                                     |  24%
+  |                                                                            
+  |===================                                                   |  27%
+  |                                                                            
+  |====================                                                  |  29%
+  |                                                                            
+  |=====================                                                 |  31%
+  |                                                                            
+  |=======================                                               |  33%
+  |                                                                            
+  |========================                                              |  35%
+  |                                                                            
+  |==========================                                            |  37%
+  |                                                                            
+  |===========================                                           |  39%
+  |                                                                            
+  |=============================                                         |  41%
+  |                                                                            
+  |==============================                                        |  43%
+  |                                                                            
+  |===============================                                       |  45%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |==================================                                    |  49%
+  |                                                                            
+  |====================================                                  |  51%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |=======================================                               |  55%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |=========================================                             |  59%
+  |                                                                            
+  |===========================================                           |  61%
+  |                                                                            
+  |============================================                          |  63%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |===============================================                       |  67%
+  |                                                                            
+  |=================================================                     |  69%
+  |                                                                            
+  |==================================================                    |  71%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |=====================================================                 |  76%
+  |                                                                            
+  |======================================================                |  78%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |=========================================================             |  82%
+  |                                                                            
+  |===========================================================           |  84%
+  |                                                                            
+  |============================================================          |  86%
+  |                                                                            
+  |=============================================================         |  88%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |================================================================      |  92%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |===================================================================   |  96%
+  |                                                                            
+  |===================================================================== |  98%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="parallel-computation-for-geospatial-analysis.html#cb126-1" tabindex="-1"></a><span class="fu">length</span>(featureData) <span class="co"># Same as feature count in CONUS? i.e. nrow(conus) </span></span></code></pre></div>
+<pre><code>## [1] 49</code></pre>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="parallel-computation-for-geospatial-analysis.html#cb128-1" tabindex="-1"></a><span class="co"># Lets try out data for Texas</span></span>
+<span id="cb128-2"><a href="parallel-computation-for-geospatial-analysis.html#cb128-2" tabindex="-1"></a><span class="fu">which</span>(conus<span class="sc">$</span>NAME<span class="sc">==</span><span class="st">&quot;Texas&quot;</span>)  <span class="co"># Find feature number for Texas</span></span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="parallel-computation-for-geospatial-analysis.html#cb130-1" tabindex="-1"></a><span class="co"># View(featureData[[5]])    # View the extracted data frame</span></span>
+<span id="cb130-2"><a href="parallel-computation-for-geospatial-analysis.html#cb130-2" tabindex="-1"></a><span class="fu">nrow</span>(featureData[[<span class="dv">5</span>]])      <span class="co"># No. pixels within selected feature</span></span></code></pre></div>
+<pre><code>## [1] 694</code></pre>
+<p>Each row in <code>featureData[[5]]</code> is the time series of cell values which fall within the boundary of feature number 5, i.e. Texas. Since <code>exact_extract</code> function provides <code>coverage_fraction</code> for each pixel in the output, we will make some minor change in the <code>my_fun</code> function to remove this variable before calculating the statistics.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="parallel-computation-for-geospatial-analysis.html#cb132-1" tabindex="-1"></a><span class="co"># Extract SM time series for first pixel by removing percentage fraction</span></span>
+<span id="cb132-2"><a href="parallel-computation-for-geospatial-analysis.html#cb132-2" tabindex="-1"></a>cellTS<span class="ot">=</span><span class="fu">as.numeric</span>(featureData[[<span class="dv">5</span>]][<span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="fu">nlyr</span>(SMAPBrk)])</span>
+<span id="cb132-3"><a href="parallel-computation-for-geospatial-analysis.html#cb132-3" tabindex="-1"></a></span>
+<span id="cb132-4"><a href="parallel-computation-for-geospatial-analysis.html#cb132-4" tabindex="-1"></a><span class="co"># Plot time time series for the selected feature</span></span>
+<span id="cb132-5"><a href="parallel-computation-for-geospatial-analysis.html#cb132-5" tabindex="-1"></a><span class="fu">plot</span>(cellTS, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Time&quot;</span>, <span class="at">ylab=</span><span class="st">&quot;Soil moisture&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="parallel-computation-for-geospatial-analysis.html#cb133-1" tabindex="-1"></a><span class="co">#~~ We will make another small change in the custom function for mean, variance and skewness</span></span>
+<span id="cb133-2"><a href="parallel-computation-for-geospatial-analysis.html#cb133-2" tabindex="-1"></a>minSamp<span class="ot">=</span><span class="dv">50</span>   <span class="co"># Minimum assured samples for statistics</span></span>
+<span id="cb133-3"><a href="parallel-computation-for-geospatial-analysis.html#cb133-3" tabindex="-1"></a></span>
+<span id="cb133-4"><a href="parallel-computation-for-geospatial-analysis.html#cb133-4" tabindex="-1"></a>my_fun <span class="ot">=</span> <span class="cf">function</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>){    </span>
+<span id="cb133-5"><a href="parallel-computation-for-geospatial-analysis.html#cb133-5" tabindex="-1"></a>  xDF<span class="ot">=</span><span class="fu">data.frame</span>(x)                  <span class="co"># Convert list to data frame</span></span>
+<span id="cb133-6"><a href="parallel-computation-for-geospatial-analysis.html#cb133-6" tabindex="-1"></a>  xDF<span class="ot">=</span>xDF[ , <span class="sc">!</span>(<span class="fu">names</span>(xDF) <span class="sc">%in%</span> <span class="st">&#39;coverage_fraction&#39;</span>)] <span class="co"># Remove coverage_fraction column</span></span>
+<span id="cb133-7"><a href="parallel-computation-for-geospatial-analysis.html#cb133-7" tabindex="-1"></a>  xData<span class="ot">=</span><span class="fu">as.vector</span>(<span class="fu">as.matrix</span>(xDF))    <span class="co"># Convert data.frame to 1-D matrix</span></span>
+<span id="cb133-8"><a href="parallel-computation-for-geospatial-analysis.html#cb133-8" tabindex="-1"></a>  smTS<span class="ot">=</span><span class="fu">as.numeric</span>(<span class="fu">na.omit</span>(xData))    <span class="co"># Omit NA values                   </span></span>
+<span id="cb133-9"><a href="parallel-computation-for-geospatial-analysis.html#cb133-9" tabindex="-1"></a>  </span>
+<span id="cb133-10"><a href="parallel-computation-for-geospatial-analysis.html#cb133-10" tabindex="-1"></a>  <span class="co"># Implement function with trycatch for catching exception </span></span>
+<span id="cb133-11"><a href="parallel-computation-for-geospatial-analysis.html#cb133-11" tabindex="-1"></a>  <span class="fu">tryCatch</span>(<span class="cf">if</span>(<span class="fu">length</span>(smTS)<span class="sc">&gt;</span>minSamp) {      <span class="co"># Apply minimum sample filter</span></span>
+<span id="cb133-12"><a href="parallel-computation-for-geospatial-analysis.html#cb133-12" tabindex="-1"></a>  </span>
+<span id="cb133-13"><a href="parallel-computation-for-geospatial-analysis.html#cb133-13" tabindex="-1"></a>  <span class="do">######## OPERATION BEGINS #############    </span></span>
+<span id="cb133-14"><a href="parallel-computation-for-geospatial-analysis.html#cb133-14" tabindex="-1"></a>  meanVal<span class="ot">=</span><span class="fu">mean</span>(smTS, <span class="at">na.rm=</span><span class="cn">TRUE</span>)              <span class="co"># Mean </span></span>
+<span id="cb133-15"><a href="parallel-computation-for-geospatial-analysis.html#cb133-15" tabindex="-1"></a>  varVal<span class="ot">=</span><span class="fu">var</span>(smTS, <span class="at">na.rm=</span><span class="cn">TRUE</span>)                <span class="co"># Variance</span></span>
+<span id="cb133-16"><a href="parallel-computation-for-geospatial-analysis.html#cb133-16" tabindex="-1"></a>  skewVal<span class="ot">=</span>moments<span class="sc">::</span><span class="fu">skewness</span>(smTS, <span class="at">na.rm=</span><span class="cn">TRUE</span>) <span class="co"># Skewness</span></span>
+<span id="cb133-17"><a href="parallel-computation-for-geospatial-analysis.html#cb133-17" tabindex="-1"></a>  output<span class="ot">=</span><span class="fu">c</span>(meanVal,varVal,skewVal)         <span class="co"># Combine all statistics</span></span>
+<span id="cb133-18"><a href="parallel-computation-for-geospatial-analysis.html#cb133-18" tabindex="-1"></a>  <span class="fu">return</span>(output)                           <span class="co"># Return output</span></span>
+<span id="cb133-19"><a href="parallel-computation-for-geospatial-analysis.html#cb133-19" tabindex="-1"></a>  <span class="do">######## OPERATION ENDS #############    </span></span>
+<span id="cb133-20"><a href="parallel-computation-for-geospatial-analysis.html#cb133-20" tabindex="-1"></a></span>
+<span id="cb133-21"><a href="parallel-computation-for-geospatial-analysis.html#cb133-21" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb133-22"><a href="parallel-computation-for-geospatial-analysis.html#cb133-22" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">rep</span>(<span class="cn">NA</span>,<span class="dv">3</span>))   <span class="co"># If conditions !=TRUE, return array with NA</span></span>
+<span id="cb133-23"><a href="parallel-computation-for-geospatial-analysis.html#cb133-23" tabindex="-1"></a>  },<span class="at">error =</span><span class="cf">function</span>(e){<span class="fu">return</span>(<span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">3</span>))}) <span class="co"># If Error== TRUE, return array with NA</span></span>
+<span id="cb133-24"><a href="parallel-computation-for-geospatial-analysis.html#cb133-24" tabindex="-1"></a>}</span></code></pre></div>
+<p>Let’s apply <code>my_fun</code> to extracted data for each feature.</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="parallel-computation-for-geospatial-analysis.html#cb134-1" tabindex="-1"></a><span class="co"># Test the function for one block</span></span>
+<span id="cb134-2"><a href="parallel-computation-for-geospatial-analysis.html#cb134-2" tabindex="-1"></a><span class="fu">my_fun</span>(featureData[[<span class="dv">5</span>]])</span></code></pre></div>
+<pre><code>## [1] 0.1727930 0.0095579 0.9876028</code></pre>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="parallel-computation-for-geospatial-analysis.html#cb136-1" tabindex="-1"></a><span class="co"># Apply function in parallel for all layers</span></span>
+<span id="cb136-2"><a href="parallel-computation-for-geospatial-analysis.html#cb136-2" tabindex="-1"></a><span class="fu">library</span>(parallel) </span>
+<span id="cb136-3"><a href="parallel-computation-for-geospatial-analysis.html#cb136-3" tabindex="-1"></a><span class="fu">library</span>(snow)</span>
+<span id="cb136-4"><a href="parallel-computation-for-geospatial-analysis.html#cb136-4" tabindex="-1"></a><span class="fu">library</span>(future.apply) </span>
+<span id="cb136-5"><a href="parallel-computation-for-geospatial-analysis.html#cb136-5" tabindex="-1"></a></span>
+<span id="cb136-6"><a href="parallel-computation-for-geospatial-analysis.html#cb136-6" tabindex="-1"></a><span class="fu">plan</span>(multiprocess, <span class="at">workers =</span> <span class="fu">detectCores</span>() <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb136-7"><a href="parallel-computation-for-geospatial-analysis.html#cb136-7" tabindex="-1"></a>outStat<span class="ot">=</span> <span class="fu">future_lapply</span>(featureData, my_fun)</span>
+<span id="cb136-8"><a href="parallel-computation-for-geospatial-analysis.html#cb136-8" tabindex="-1"></a></span>
+<span id="cb136-9"><a href="parallel-computation-for-geospatial-analysis.html#cb136-9" tabindex="-1"></a><span class="co"># Test output for one feature</span></span>
+<span id="cb136-10"><a href="parallel-computation-for-geospatial-analysis.html#cb136-10" tabindex="-1"></a>outStat[[<span class="dv">5</span>]]  <span class="co"># Is this the same as before?</span></span></code></pre></div>
+<pre><code>## [1] 0.1727930 0.0095579 0.9876028</code></pre>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="parallel-computation-for-geospatial-analysis.html#cb138-1" tabindex="-1"></a><span class="co"># Extract each summary stats for all features from the output list  </span></span>
+<span id="cb138-2"><a href="parallel-computation-for-geospatial-analysis.html#cb138-2" tabindex="-1"></a>FeatureMean<span class="ot">=</span><span class="fu">sapply</span>(outStat,<span class="st">&quot;[[&quot;</span>,<span class="dv">1</span>)  <span class="co"># Extract mean for all features</span></span>
+<span id="cb138-3"><a href="parallel-computation-for-geospatial-analysis.html#cb138-3" tabindex="-1"></a>FeatureVar<span class="ot">=</span><span class="fu">sapply</span>(outStat,<span class="st">&quot;[[&quot;</span>,<span class="dv">2</span>)   <span class="co"># Extract variance for all features</span></span>
+<span id="cb138-4"><a href="parallel-computation-for-geospatial-analysis.html#cb138-4" tabindex="-1"></a>FeatureSkew<span class="ot">=</span><span class="fu">sapply</span>(outStat,<span class="st">&quot;[[&quot;</span>,<span class="dv">3</span>)  <span class="co"># Extract skewness for all features</span></span>
+<span id="cb138-5"><a href="parallel-computation-for-geospatial-analysis.html#cb138-5" tabindex="-1"></a></span>
+<span id="cb138-6"><a href="parallel-computation-for-geospatial-analysis.html#cb138-6" tabindex="-1"></a><span class="co"># Let&#39;s place mean statistics as an attribute to the shapefile</span></span>
+<span id="cb138-7"><a href="parallel-computation-for-geospatial-analysis.html#cb138-7" tabindex="-1"></a>conus<span class="sc">$</span>meanSM<span class="ot">=</span>FeatureMean</span>
+<span id="cb138-8"><a href="parallel-computation-for-geospatial-analysis.html#cb138-8" tabindex="-1"></a></span>
+<span id="cb138-9"><a href="parallel-computation-for-geospatial-analysis.html#cb138-9" tabindex="-1"></a><span class="co"># Plot mean soil moisture map for CONUS </span></span>
+<span id="cb138-10"><a href="parallel-computation-for-geospatial-analysis.html#cb138-10" tabindex="-1"></a><span class="fu">library</span>(rcartocolor)</span>
+<span id="cb138-11"><a href="parallel-computation-for-geospatial-analysis.html#cb138-11" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb138-12"><a href="parallel-computation-for-geospatial-analysis.html#cb138-12" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb138-13"><a href="parallel-computation-for-geospatial-analysis.html#cb138-13" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb138-14"><a href="parallel-computation-for-geospatial-analysis.html#cb138-14" tabindex="-1"></a></span>
+<span id="cb138-15"><a href="parallel-computation-for-geospatial-analysis.html#cb138-15" tabindex="-1"></a>mean_map<span class="ot">=</span><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb138-16"><a href="parallel-computation-for-geospatial-analysis.html#cb138-16" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> <span class="fu">st_as_sf</span>(conus), <span class="co"># CONUS shp as sf object (simple feature)</span></span>
+<span id="cb138-17"><a href="parallel-computation-for-geospatial-analysis.html#cb138-17" tabindex="-1"></a>          <span class="fu">aes</span>(<span class="at">fill =</span> meanSM)) <span class="sc">+</span>   <span class="co"># Plot fill color= mean soil moisture</span></span>
+<span id="cb138-18"><a href="parallel-computation-for-geospatial-analysis.html#cb138-18" tabindex="-1"></a>  <span class="fu">scale_fill_carto_c</span>(<span class="at">palette =</span> <span class="st">&quot;BluYl&quot;</span>,     <span class="co"># Using carto color palette</span></span>
+<span id="cb138-19"><a href="parallel-computation-for-geospatial-analysis.html#cb138-19" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Mean SM&quot;</span>,      <span class="co"># Legend name</span></span>
+<span id="cb138-20"><a href="parallel-computation-for-geospatial-analysis.html#cb138-20" tabindex="-1"></a>                     <span class="at">na.value =</span> <span class="st">&quot;#e9e9e9&quot;</span>,  <span class="co"># Fill values for NA </span></span>
+<span id="cb138-21"><a href="parallel-computation-for-geospatial-analysis.html#cb138-21" tabindex="-1"></a>                     <span class="at">direction =</span> <span class="dv">1</span>)<span class="sc">+</span>        <span class="co"># To invert color, use -1</span></span>
+<span id="cb138-22"><a href="parallel-computation-for-geospatial-analysis.html#cb138-22" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="dv">2163</span>)<span class="sc">+</span>   <span class="co"># Reprojecting polygon 4326 or 3083 </span></span>
+<span id="cb138-23"><a href="parallel-computation-for-geospatial-analysis.html#cb138-23" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span>          <span class="co"># Plot theme. Try: theme_bw</span></span>
+<span id="cb138-24"><a href="parallel-computation-for-geospatial-analysis.html#cb138-24" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.1</span>),  </span>
+<span id="cb138-25"><a href="parallel-computation-for-geospatial-analysis.html#cb138-25" tabindex="-1"></a>        <span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>,</span>
+<span id="cb138-26"><a href="parallel-computation-for-geospatial-analysis.html#cb138-26" tabindex="-1"></a>        <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="dv">5</span>, <span class="st">&quot;mm&quot;</span>),</span>
+<span id="cb138-27"><a href="parallel-computation-for-geospatial-analysis.html#cb138-27" tabindex="-1"></a>        <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">4</span>, <span class="st">&quot;mm&quot;</span>))</span>
+<span id="cb138-28"><a href="parallel-computation-for-geospatial-analysis.html#cb138-28" tabindex="-1"></a>mean_map</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="data-cubes-or-spatraster.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="supplementary-material.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Vinit-Sehgal/lgar/edit/main/04-Largescale_geospatial_analysis_2023_v2.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/Vinit-Sehgal/lgar/blob/main/04-Largescale_geospatial_analysis_2023_v2.Rmd",
+"text": null
+},
+"download": ["bookdownproj.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
