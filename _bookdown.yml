@@ -7,15 +7,4 @@ language:
   ui:
     chapter_name: "Chapter "
 
-format:
-  html:
-      theme: flatly
-      rmdformats::readthedown:
-      code-fold: false
-      self_contained: true
-      toc: true
-      thumbnails: true
-      lightbox: true
-      gallery: true
-      highlight: tango
 

@@ -5,4 +5,4 @@ bookdown::gitbook:
       before: |
         <li><a href="./">Large-scale Geospatial Analysis in R</a></li>
       after: |
-        <li><a href="https://soil-hydrology.com/" target="blank">Soil Hydrology & Remote Sensing Lab @ LSU</a></li>
+        <li><a href=https://soil-hydrology.com/" target="blank">https://soil-hydrology.com/</a></li>
