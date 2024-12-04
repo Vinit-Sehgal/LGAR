@@ -1521,5 +1521,5 @@ Follow [Part 1: Data Visualization with R](https://rpubs.com/Vinit_Sehgal/datavi
 <center> __Data Visualization and Geospatial Analysis With R__ </center>
 <center> Vinit Sehgal, Louisiana State University </center>
 <center> Debasish Mishra, Texas A&M University </center>
-<center> Correspondence: _vinit@tamu.edu_ (https://orcid.org/0000-0002-8837-5864) </center>
+<center> Correspondence: _VSehgal@agcenter.lsu.edu_ (https://orcid.org/0000-0002-8837-5864) </center>
 <center> ![](./SampleData-master/images/CC_license.png){width=10%} </center>
