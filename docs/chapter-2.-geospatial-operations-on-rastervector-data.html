@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 CHAPTER 2. Geospatial operations on raster/vector data | Data Visualization and Geospatial Analysis With R</title>
+  <meta name="description" content="Chapter 7 CHAPTER 2. Geospatial operations on raster/vector data | Data Visualization and Geospatial Analysis With R" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 CHAPTER 2. Geospatial operations on raster/vector data | Data Visualization and Geospatial Analysis With R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 CHAPTER 2. Geospatial operations on raster/vector data | Data Visualization and Geospatial Analysis With R" />
+  
+  
+  
+
+<meta name="author" content="Vinit Sehgal &amp; Debasish Mishra, Texas A&amp;M University" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="chapter-1.-raster-and-shapefile-visualization.html"/>
+<link rel="next" href="chapter-3.-data-cubes-or-spatraster.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.1.1/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.1.1/leaflet-providers-plugin.js"></script>
+<script src="libs/brick(sm)_05649e-1/data_stars_bricksmf7486e.txt"></script>
+<script src="libs/joda-0.0.1/joda.js"></script>
+<script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Large-scale Geospatial Analysis in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Data Visualization and Geospatial Analysis With R</a></li>
+<li class="chapter" data-level="2" data-path="the-pool-of-tears.html"><a href="the-pool-of-tears.html"><i class="fa fa-check"></i><b>2</b> The pool of tears</a></li>
+<li class="chapter" data-level="3" data-path="a-caucus-race-and-a-long-tale.html"><a href="a-caucus-race-and-a-long-tale.html"><i class="fa fa-check"></i><b>3</b> A caucus-race and a long tale</a></li>
+<li class="chapter" data-level="4" data-path="large-scale-geospatial-analysis-2023.html"><a href="large-scale-geospatial-analysis-2023.html"><i class="fa fa-check"></i><b>4</b> Large-scale Geospatial Analysis (2023)</a></li>
+<li class="chapter" data-level="5" data-path="chapter-0.-import-libraries-and-sample-dataset.html"><a href="chapter-0.-import-libraries-and-sample-dataset.html"><i class="fa fa-check"></i><b>5</b> CHAPTER 0. Import libraries and sample dataset</a></li>
+<li class="chapter" data-level="6" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html"><i class="fa fa-check"></i><b>6</b> CHAPTER 1. Raster and shapefile visualization</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#plotting-raster-data"><i class="fa fa-check"></i><b>6.1</b> 1.1. Plotting raster data</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#customizing-terra-plot-options"><i class="fa fa-check"></i><b>6.2</b> 1.2. Customizing <code>terra</code> plot options</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#scientific-color-palettes"><i class="fa fa-check"></i><b>6.2.1</b> 1.2.1 Scientific Color palettes</a></li>
+<li class="chapter" data-level="6.2.2" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#customize-terra-plots"><i class="fa fa-check"></i><b>6.2.2</b> 1.2.2 Customize <code>terra</code> plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#plotting-raster-data-using-tidyterra"><i class="fa fa-check"></i><b>6.3</b> 1.3. Plotting raster data using <code>tidyterra</code></a></li>
+<li class="chapter" data-level="6.4" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#plotting-vector-data"><i class="fa fa-check"></i><b>6.4</b> 1.4. Plotting vector data</a></li>
+<li class="chapter" data-level="6.5" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#reprojection-of-rasters-using-terraproject"><i class="fa fa-check"></i><b>6.5</b> 1.5. Reprojection of rasters using <code>terra::project</code></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-2.-geospatial-operations-on-rastervector-data.html"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html"><i class="fa fa-check"></i><b>7</b> CHAPTER 2. Geospatial operations on raster/vector data</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-2.-geospatial-operations-on-rastervector-data.html"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#raster-resampling"><i class="fa fa-check"></i><b>7.1</b> 2.1. Raster resampling</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter-2.-geospatial-operations-on-rastervector-data.html"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#raster-summary-statistics"><i class="fa fa-check"></i><b>7.2</b> 2.2. Raster summary statistics</a></li>
+<li class="chapter" data-level="7.3" data-path="chapter-2.-geospatial-operations-on-rastervector-data.html"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#summarizing-rasters-using-shapefles"><i class="fa fa-check"></i><b>7.3</b> 2.3. Summarizing rasters using shapefles</a></li>
+<li class="chapter" data-level="7.4" data-path="chapter-2.-geospatial-operations-on-rastervector-data.html"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#diy-summarize-raster-using-classified-raster"><i class="fa fa-check"></i><b>7.4</b> 2.4. DIY: Summarize raster using classified raster</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html"><i class="fa fa-check"></i><b>8</b> CHAPTER 3. Data-cubes or SpatRaster</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#create-subset-and-visualize-spatraster"><i class="fa fa-check"></i><b>8.1</b> 3.1. Create, subset and visualize SpatRaster</a></li>
+<li class="chapter" data-level="8.2" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#geospatial-operations-on-spatraster"><i class="fa fa-check"></i><b>8.2</b> 3.2. Geospatial operations on SpatRaster</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#time-series-extraction-from-spatraster"><i class="fa fa-check"></i><b>8.2.1</b> 3.2.1. Time-series extraction from SpatRaster</a></li>
+<li class="chapter" data-level="8.2.2" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#spatial-extractionsummary-from-spatraster"><i class="fa fa-check"></i><b>8.2.2</b> 3.2.2. Spatial extraction/summary from SpatRaster</a></li>
+<li class="chapter" data-level="8.2.3" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#crop-and-mask-spatraster"><i class="fa fa-check"></i><b>8.2.3</b> 3.2.3. Crop and mask SpatRaster</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#layer-wise-operations-on-spatraster"><i class="fa fa-check"></i><b>8.3</b> 3.3. Layer-wise operations on SpatRaster</a></li>
+<li class="chapter" data-level="8.4" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#cell-wise-operations-with-app-lapp-tapp"><i class="fa fa-check"></i><b>8.4</b> 3.4. Cell-wise operations with <code>app</code>, <code>lapp</code>, <code>tapp</code></a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#app-cell-wise-operation-on-all-layers"><i class="fa fa-check"></i><b>8.4.1</b> 3.4.1. app: Cell-wise operation on all layers</a></li>
+<li class="chapter" data-level="8.4.2" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#tapp-cell-wise-operation-on-layer-groups"><i class="fa fa-check"></i><b>8.4.2</b> 3.4.2. tapp: Cell-wise operation on layer groups</a></li>
+<li class="chapter" data-level="8.4.3" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#lapp-layers-as-function-arguments"><i class="fa fa-check"></i><b>8.4.3</b> 3.4.3. lapp: layers as function arguments</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html"><i class="fa fa-check"></i><b>9</b> CHAPTER 4. Parallel computation for geospatial analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#cellwise-implimentation-of-functions"><i class="fa fa-check"></i><b>9.1</b> 4.1. Cellwise implimentation of functions</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#apply-custom-function-to-pixel-time-series"><i class="fa fa-check"></i><b>9.1.1</b> 4.1.1. Apply custom function to pixel time series</a></li>
+<li class="chapter" data-level="9.1.2" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#best-practices-for-large-scale-operations"><i class="fa fa-check"></i><b>9.1.2</b> 4.2.1. Best practices for large-scale operations</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#layerwise-implimentation-of-functions"><i class="fa fa-check"></i><b>9.2</b> 4.2. Layerwise implimentation of functions</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#data-cubes-as-lists"><i class="fa fa-check"></i><b>9.2.1</b> 4.2.1. Data cubes as lists</a></li>
+<li class="chapter" data-level="9.2.2" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#blockwise-summary-of-feature-extracted-data"><i class="fa fa-check"></i><b>9.2.2</b> 4.2.2. Blockwise summary of feature extracted data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="chapter-5.-supplementary-material.html"><a href="chapter-5.-supplementary-material.html"><i class="fa fa-check"></i><b>10</b> CHAPTER 5. Supplementary material</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chapter-5.-supplementary-material.html"><a href="chapter-5.-supplementary-material.html#exporting-spatraster-to-netcdf-data"><i class="fa fa-check"></i><b>10.1</b> 5.1. Exporting SpatRaster to NetCDF Data</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter-5.-supplementary-material.html"><a href="chapter-5.-supplementary-material.html#updating-r-using-rstudio"><i class="fa fa-check"></i><b>10.2</b> 5.2. Updating R using RStudio</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter-5.-supplementary-material.html"><a href="chapter-5.-supplementary-material.html#changing-temp-files-for-large-storage"><i class="fa fa-check"></i><b>10.3</b> 5.3. Changing Temp files for large storage</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter-5.-supplementary-material.html"><a href="chapter-5.-supplementary-material.html#resampling-with-rgdalwarp"><i class="fa fa-check"></i><b>10.4</b> 5.4. Resampling with rgdalwarp</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href=https://soil-hydrology.com/" target="blank">https://soil-hydrology.com/</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Visualization and Geospatial Analysis With R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-2.-geospatial-operations-on-rastervector-data" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> CHAPTER 2. Geospatial operations on raster/vector data<a href="chapter-2.-geospatial-operations-on-rastervector-data.html#chapter-2.-geospatial-operations-on-rastervector-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<hr />
+<div id="raster-resampling" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> 2.1. Raster resampling<a href="chapter-2.-geospatial-operations-on-rastervector-data.html#raster-resampling" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will demonstrate how to change the resolution of Spatraster files using <code>terra::aggregate</code> (fine to coarse), <code>terra::disagg</code> (coarse to fine), and resampling values from one raster to another using <code>terra::resample</code> function. We will use global aridity and soil moisture Spatrasters for this purpose.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb32-1" tabindex="-1"></a><span class="co"># Importing SMAP soil moisture data</span></span>
+<span id="cb32-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb32-2" tabindex="-1"></a>sm<span class="ot">=</span><span class="fu">rast</span>(<span class="st">&quot;./SampleData-master/raster_files/SMAP_SM.tif&quot;</span>) </span>
+<span id="cb32-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb32-3" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb32-4" tabindex="-1"></a><span class="co"># Original resoluton of raster for reference</span></span>
+<span id="cb32-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb32-5" tabindex="-1"></a><span class="fu">res</span>(sm)</span></code></pre></div>
+<pre><code>## [1] 0.373444 0.373444</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb34-1" tabindex="-1"></a><span class="co">#~~ Aggregate raster to coarser resolution</span></span>
+<span id="cb34-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb34-2" tabindex="-1"></a>SMcoarse <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">aggregate</span>(sm,           <span class="co"># Soil moisture raster</span></span>
+<span id="cb34-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb34-3" tabindex="-1"></a>                            <span class="at">fact =</span> <span class="dv">10</span>,    <span class="co"># Aggregate by x 10</span></span>
+<span id="cb34-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb34-4" tabindex="-1"></a>                            <span class="at">fun =</span> mean)   <span class="co"># Function used to aggregate values</span></span>
+<span id="cb34-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb34-5" tabindex="-1"></a><span class="fu">res</span>(SMcoarse)</span></code></pre></div>
+<pre><code>## [1] 3.73444 3.73444</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb36-1" tabindex="-1"></a><span class="co">#~~ Disaggregate raster to finer resolution</span></span>
+<span id="cb36-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb36-2" tabindex="-1"></a>SMfine <span class="ot">=</span> terra<span class="sc">::</span><span class="fu">disagg</span>(sm, </span>
+<span id="cb36-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb36-3" tabindex="-1"></a>                   <span class="at">fact=</span><span class="dv">3</span>, </span>
+<span id="cb36-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb36-4" tabindex="-1"></a>                   <span class="at">method=</span><span class="st">&#39;bilinear&#39;</span>)</span>
+<span id="cb36-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb36-5" tabindex="-1"></a><span class="fu">res</span>(SMfine)</span></code></pre></div>
+<pre><code>## [1] 0.1244813 0.1244813</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb38-1" tabindex="-1"></a><span class="co">#~~ Raster resampling</span></span>
+<span id="cb38-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb38-2" tabindex="-1"></a><span class="co"># Import global aridity raster</span></span>
+<span id="cb38-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb38-3" tabindex="-1"></a>aridity<span class="ot">=</span><span class="fu">rast</span>(<span class="st">&quot;./SampleData-master/raster_files/aridity_36km.tif&quot;</span>) </span>
+<span id="cb38-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb38-4" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb38-5" tabindex="-1"></a><span class="co"># Plot aridity map</span></span>
+<span id="cb38-6"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb38-6" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(aridity, <span class="at">col=</span>mypal2, <span class="at">main=</span> <span class="st">&quot;Aridity Spatraster&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/resampling-1.png" width="672" /></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb39-1" tabindex="-1"></a><span class="co"># Resample aridity raster to coarse resolution  </span></span>
+<span id="cb39-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb39-2" tabindex="-1"></a>aridityResamp<span class="ot">=</span>terra<span class="sc">::</span><span class="fu">resample</span>(aridity,      <span class="co"># Original raster</span></span>
+<span id="cb39-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb39-3" tabindex="-1"></a>                       SMcoarse,     <span class="co"># Target resolution raster</span></span>
+<span id="cb39-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb39-4" tabindex="-1"></a>                       <span class="at">method=</span><span class="st">&#39;ngb&#39;</span>) <span class="co"># bilinear or ngb (nearest neighbor) </span></span>
+<span id="cb39-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb39-5" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb39-6" tabindex="-1"></a><span class="co"># Plot resampled aridity map</span></span>
+<span id="cb39-7"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb39-7" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(aridityResamp, <span class="at">col=</span>mypal2, <span class="at">main=</span> <span class="st">&quot;Aridity at Coarser Resolution&quot;</span>)</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/resampling-2.png" width="672" /></p>
+</div>
+<div id="raster-summary-statistics" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> 2.2. Raster summary statistics<a href="chapter-2.-geospatial-operations-on-rastervector-data.html#raster-summary-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Arithmetic operations a.k.a. arith-generic (+, -, *, /, ^, %%, %/%) on Spatrasters closely resemble simple vector-like operations. More details on arith-generic can be found here: <a href="https://rdrr.io/cran/terra/man/arith-generic.html" class="uri">https://rdrr.io/cran/terra/man/arith-generic.html</a>.
+<br>
+We will use <code>global</code> function to apply summary statistics and user-defined operations on cells of a raster.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb40-1" tabindex="-1"></a><span class="co"># Simple arithmetic operations</span></span>
+<span id="cb40-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb40-2" tabindex="-1"></a>sm2<span class="ot">=</span>sm<span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb40-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb40-3" tabindex="-1"></a><span class="fu">print</span>(sm2) <span class="co"># Try sm2=sm*10, or sm2=sm^2 and see the difference in sm2 values</span></span></code></pre></div>
+<pre><code>## class       : SpatRaster 
+## dimensions  : 456, 964, 1  (nrow, ncol, nlyr)
+## resolution  : 0.373444, 0.373444  (x, y)
+## extent      : -180, 180, -85.24595, 85.0445  (xmin, xmax, ymin, ymax)
+## coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+## source      : memory 
+## name        :    SMAP_SM 
+## min value   : 0.03999996 
+## max value   :   1.753352</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb42-1" tabindex="-1"></a><span class="co"># Summary statistics</span></span>
+<span id="cb42-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb42-2" tabindex="-1"></a><span class="fu">global</span>(sm, mean, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>##             mean
+## SMAP_SM 0.209402</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb44-1" tabindex="-1"></a><span class="fu">global</span>(sm, sd, <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>##                sd
+## SMAP_SM 0.1434444</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb46-1" tabindex="-1"></a><span class="fu">global</span>(sm, quantile, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">na.rm =</span> T)</span></code></pre></div>
+<pre><code>##               X25.      X75.
+## SMAP_SM 0.09521707 0.2922016</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb48-1" tabindex="-1"></a><span class="co"># User-defined statistics by defining own function</span></span>
+<span id="cb48-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb48-2" tabindex="-1"></a>quant_fun <span class="ot">=</span> <span class="cf">function</span>(x, <span class="at">na.rm=</span><span class="cn">TRUE</span>){ <span class="co"># Remember to add &quot;na.rm&quot; option</span></span>
+<span id="cb48-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb48-3" tabindex="-1"></a>  <span class="fu">quantile</span>(x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.75</span>), <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb48-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb48-4" tabindex="-1"></a>} </span>
+<span id="cb48-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb48-5" tabindex="-1"></a><span class="fu">global</span>(sm, quant_fun)   <span class="co"># 25th, and 75th percentile of each layer</span></span></code></pre></div>
+<pre><code>##               X25.      X75.
+## SMAP_SM 0.09521707 0.2922016</code></pre>
+<p>Note: With a multi-layered raster object, <code>global</code> will summarize each layer separately.</p>
+</div>
+<div id="summarizing-rasters-using-shapefles" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> 2.3. Summarizing rasters using shapefles<a href="chapter-2.-geospatial-operations-on-rastervector-data.html#summarizing-rasters-using-shapefles" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s explore using a spatial polygon/shapefile for summarizing a raster (in this case, global SMAP soil moisture) by using <code>extract</code> function from the <code>terra</code> library. We will also transform global aridity raster to a polygon using <code>as.polygons</code> and <code>st_as_sf</code> functions to find the mean soil moisture values for each aridity class.</p>
+<p>First, we will use the IPCC shapefile to summarize the soil moisture raster.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb50-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
+<span id="cb50-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb50-2" tabindex="-1"></a><span class="co">#~~~ PART 2.3.1: Using shapefile to summarize a raster</span></span>
+<span id="cb50-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb50-3" tabindex="-1"></a>sm_IPCC_df<span class="ot">=</span>terra<span class="sc">::</span><span class="fu">extract</span>(sm,        <span class="co"># Spatraster to be summarized</span></span>
+<span id="cb50-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb50-4" tabindex="-1"></a>                          <span class="fu">vect</span>(IPCC_shp),  <span class="co"># Shapefile/ polygon to summarize the raster</span></span>
+<span id="cb50-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb50-5" tabindex="-1"></a>                          <span class="at">df=</span><span class="cn">TRUE</span>,   <span class="co"># Gives the summary statistics as a dataframe</span></span>
+<span id="cb50-6"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb50-6" tabindex="-1"></a>                          <span class="at">fun=</span>mean,  <span class="co"># Desired statistic: mean, sum, min and max </span></span>
+<span id="cb50-7"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb50-7" tabindex="-1"></a>                          <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="co"># Ignore NA values? TRUE=yes! </span></span>
+<span id="cb50-8"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb50-8" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb50-9" tabindex="-1"></a><span class="fu">head</span>(sm_IPCC_df)</span></code></pre></div>
+<pre><code>##   ID   SMAP_SM
+## 1  1 0.2545766
+## 2  2 0.3839087
+## 3  3 0.2345457
+## 4  4 0.3788003
+## 5  5 0.2383580
+## 6  6 0.1475145</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
+<span id="cb52-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-2" tabindex="-1"></a><span class="co">#~~~ PART 2.3.2: Extract cell values for each region </span></span>
+<span id="cb52-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-3" tabindex="-1"></a>sm_IPCC_list<span class="ot">=</span>terra<span class="sc">::</span><span class="fu">extract</span>(sm,       <span class="co"># Raster to be summarized</span></span>
+<span id="cb52-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-4" tabindex="-1"></a>                          <span class="fu">vect</span>(IPCC_shp),   <span class="co"># Shapefile/ polygon to summarize the raster</span></span>
+<span id="cb52-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-5" tabindex="-1"></a>                          <span class="at">df=</span><span class="cn">FALSE</span>,   <span class="co"># Returns a list</span></span>
+<span id="cb52-6"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-6" tabindex="-1"></a>                          <span class="at">fun=</span><span class="cn">NULL</span>,   <span class="co"># fun=NULL will output cell values within each region</span></span>
+<span id="cb52-7"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-7" tabindex="-1"></a>                          <span class="at">na.rm=</span><span class="cn">TRUE</span>) <span class="co"># Ignore NA values? yes! </span></span>
+<span id="cb52-8"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-8" tabindex="-1"></a></span>
+<span id="cb52-9"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-9" tabindex="-1"></a><span class="co"># Apply function on cell values for each region</span></span>
+<span id="cb52-10"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-10" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb52-11"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-11" tabindex="-1"></a></span>
+<span id="cb52-12"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-12" tabindex="-1"></a>sm_IPCC_list <span class="sc">%&gt;%</span> </span>
+<span id="cb52-13"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-13" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb52-14"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-14" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span> </span>
+<span id="cb52-15"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb52-15" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_SM =</span> <span class="fu">mean</span>(SMAP_SM, <span class="at">na.rm =</span>T))</span></code></pre></div>
+<pre><code>## # A tibble: 41 x 2
+##       ID mean_SM
+##    &lt;dbl&gt;   &lt;dbl&gt;
+##  1     1   0.255
+##  2     2   0.384
+##  3     3   0.235
+##  4     4   0.379
+##  5     5   0.238
+##  6     6   0.148
+##  7     7   0.110
+##  8     8   0.336
+##  9     9   0.399
+## 10    10   0.320
+## # i 31 more rows</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb54-1" tabindex="-1"></a><span class="co">#~~ Try user defined function</span></span>
+<span id="cb54-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb54-2" tabindex="-1"></a>myfun<span class="ot">=</span><span class="cf">function</span> (y){<span class="fu">return</span>(<span class="fu">mean</span>(y, <span class="at">na.rm=</span><span class="cn">TRUE</span>))}    <span class="co"># User defined function for calculating means</span></span>
+<span id="cb54-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb54-3" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb54-4" tabindex="-1"></a>sm_IPCC_list <span class="sc">%&gt;%</span> </span>
+<span id="cb54-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb54-5" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb54-6"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb54-6" tabindex="-1"></a>  <span class="fu">group_by</span>(ID) <span class="sc">%&gt;%</span> </span>
+<span id="cb54-7"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb54-7" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_SM =</span> <span class="fu">myfun</span>(SMAP_SM))  </span></code></pre></div>
+<pre><code>## # A tibble: 41 x 2
+##       ID mean_SM
+##    &lt;dbl&gt;   &lt;dbl&gt;
+##  1     1   0.255
+##  2     2   0.384
+##  3     3   0.235
+##  4     4   0.379
+##  5     5   0.238
+##  6     6   0.148
+##  7     7   0.110
+##  8     8   0.336
+##  9     9   0.399
+## 10    10   0.320
+## # i 31 more rows</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb56-1" tabindex="-1"></a><span class="co"># Is this the same as the previous result?</span></span></code></pre></div>
+</div>
+<div id="diy-summarize-raster-using-classified-raster" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> 2.4. DIY: Summarize raster using classified raster<a href="chapter-2.-geospatial-operations-on-rastervector-data.html#diy-summarize-raster-using-classified-raster" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the next example, we will convert global aridity raster into a polygon based on aridity classification using <code>as.polygons</code> and <code>st_as_sf</code> functions.
+<br>
+Global aridity raster has 5 classes with 5 indicating humid and 1 indicating hyper-arid climate. We will use this polygon to extract values from the Spatraster and summarize soil moisture for each aridity class.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb57-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
+<span id="cb57-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb57-2" tabindex="-1"></a><span class="co">#~~~ PART 2.4.1: Convert a raster to a shapefile</span></span>
+<span id="cb57-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb57-3" tabindex="-1"></a>aridity<span class="ot">=</span><span class="fu">rast</span>(<span class="st">&quot;./SampleData-master/raster_files/aridity_36km.tif&quot;</span>) <span class="co">#Global aridity</span></span>
+<span id="cb57-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb57-4" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb57-5" tabindex="-1"></a><span class="co"># Convert raster to shapefile</span></span>
+<span id="cb57-6"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb57-6" tabindex="-1"></a>arid_poly<span class="ot">=</span><span class="fu">st_as_sf</span>(<span class="fu">as.polygons</span>(aridity))   <span class="co"># Convert SpatRaster to polygon and then to sf</span></span>
+<span id="cb57-7"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb57-7" tabindex="-1"></a></span>
+<span id="cb57-8"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb57-8" tabindex="-1"></a><span class="co"># Plot aridity polygon</span></span>
+<span id="cb57-9"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb57-9" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plot</span>(arid_poly, </span>
+<span id="cb57-10"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb57-10" tabindex="-1"></a>     <span class="at">col=</span>arid_poly<span class="sc">$</span>aridity_36km)  <span class="co"># Colors based on aridity values (i.e. 1,2,3,4,5)</span></span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Summarize values of SMAP soil moisture raster for aridity classes:</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-1" tabindex="-1"></a>sm_arid_df<span class="ot">=</span>terra<span class="sc">::</span><span class="fu">extract</span>(sm,        <span class="co"># Raster to be summarized</span></span>
+<span id="cb58-2"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-2" tabindex="-1"></a>                          <span class="fu">vect</span>(arid_poly), <span class="co"># Shapefile/ polygon to summarize the raster</span></span>
+<span id="cb58-3"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-3" tabindex="-1"></a>                          <span class="at">df=</span><span class="cn">TRUE</span>,   <span class="co"># Gives the summary statistics as a dataframe</span></span>
+<span id="cb58-4"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-4" tabindex="-1"></a>                          <span class="at">fun=</span>mean,  <span class="co"># Desired statistic: mean, sum, min and max </span></span>
+<span id="cb58-5"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-5" tabindex="-1"></a>                          <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="co"># Ignore NA values? yes! </span></span>
+<span id="cb58-6"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-6" tabindex="-1"></a></span>
+<span id="cb58-7"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-7" tabindex="-1"></a><span class="co"># Lets plot the climate-wise mean of surface soil moisture</span></span>
+<span id="cb58-8"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-8" tabindex="-1"></a>{<span class="fu">plot</span>(sm_arid_df,     </span>
+<span id="cb58-9"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-9" tabindex="-1"></a>     <span class="at">xaxt =</span> <span class="st">&quot;n&quot;</span>,              <span class="co"># Disable x-tick labels</span></span>
+<span id="cb58-10"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-10" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">&quot;Aridity&quot;</span>,          <span class="co"># X axis label</span></span>
+<span id="cb58-11"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-11" tabindex="-1"></a>     <span class="at">ylab=</span><span class="st">&quot;Soil moisture&quot;</span>,    <span class="co"># Y axis label</span></span>
+<span id="cb58-12"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-12" tabindex="-1"></a>     <span class="at">type=</span><span class="st">&quot;b&quot;</span>,                <span class="co"># line type</span></span>
+<span id="cb58-13"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-13" tabindex="-1"></a>     <span class="at">col=</span><span class="st">&quot;blue&quot;</span>,              <span class="co"># Line color</span></span>
+<span id="cb58-14"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-14" tabindex="-1"></a>     <span class="at">main=</span><span class="st">&quot;Climate-wise mean of surface soil moisture&quot;</span>)</span>
+<span id="cb58-15"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#cb58-15" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Hyper-arid&quot;</span>, <span class="st">&quot;Arid&quot;</span>, <span class="st">&quot;Semi-Arid&quot;</span>,<span class="st">&quot;Sub-humid&quot;</span>,<span class="st">&quot;Humid&quot;</span>))}</span></code></pre></div>
+<p><img src="bookdownproj_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="chapter-1.-raster-and-shapefile-visualization.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-3.-data-cubes-or-spatraster.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Vinit-Sehgal/lgar/edit/main/04-Largescale_geospatial_analysis_2023_v2.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/Vinit-Sehgal/lgar/blob/main/04-Largescale_geospatial_analysis_2023_v2.Rmd",
+"text": null
+},
+"download": ["bookdownproj.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

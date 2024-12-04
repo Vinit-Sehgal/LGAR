@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 CHAPTER 0. Import libraries and sample dataset | Data Visualization and Geospatial Analysis With R</title>
+  <meta name="description" content="Chapter 5 CHAPTER 0. Import libraries and sample dataset | Data Visualization and Geospatial Analysis With R" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 CHAPTER 0. Import libraries and sample dataset | Data Visualization and Geospatial Analysis With R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 CHAPTER 0. Import libraries and sample dataset | Data Visualization and Geospatial Analysis With R" />
+  
+  
+  
+
+<meta name="author" content="Vinit Sehgal &amp; Debasish Mishra, Texas A&amp;M University" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="large-scale-geospatial-analysis-2023.html"/>
+<link rel="next" href="chapter-1.-raster-and-shapefile-visualization.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.1.1/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.1.1/leaflet-providers-plugin.js"></script>
+<script src="libs/brick(sm)_05649e-1/data_stars_bricksmf7486e.txt"></script>
+<script src="libs/joda-0.0.1/joda.js"></script>
+<script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Large-scale Geospatial Analysis in R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Data Visualization and Geospatial Analysis With R</a></li>
+<li class="chapter" data-level="2" data-path="the-pool-of-tears.html"><a href="the-pool-of-tears.html"><i class="fa fa-check"></i><b>2</b> The pool of tears</a></li>
+<li class="chapter" data-level="3" data-path="a-caucus-race-and-a-long-tale.html"><a href="a-caucus-race-and-a-long-tale.html"><i class="fa fa-check"></i><b>3</b> A caucus-race and a long tale</a></li>
+<li class="chapter" data-level="4" data-path="large-scale-geospatial-analysis-2023.html"><a href="large-scale-geospatial-analysis-2023.html"><i class="fa fa-check"></i><b>4</b> Large-scale Geospatial Analysis (2023)</a></li>
+<li class="chapter" data-level="5" data-path="chapter-0.-import-libraries-and-sample-dataset.html"><a href="chapter-0.-import-libraries-and-sample-dataset.html"><i class="fa fa-check"></i><b>5</b> CHAPTER 0. Import libraries and sample dataset</a></li>
+<li class="chapter" data-level="6" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html"><i class="fa fa-check"></i><b>6</b> CHAPTER 1. Raster and shapefile visualization</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#plotting-raster-data"><i class="fa fa-check"></i><b>6.1</b> 1.1. Plotting raster data</a></li>
+<li class="chapter" data-level="6.2" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#customizing-terra-plot-options"><i class="fa fa-check"></i><b>6.2</b> 1.2. Customizing <code>terra</code> plot options</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#scientific-color-palettes"><i class="fa fa-check"></i><b>6.2.1</b> 1.2.1 Scientific Color palettes</a></li>
+<li class="chapter" data-level="6.2.2" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#customize-terra-plots"><i class="fa fa-check"></i><b>6.2.2</b> 1.2.2 Customize <code>terra</code> plots</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#plotting-raster-data-using-tidyterra"><i class="fa fa-check"></i><b>6.3</b> 1.3. Plotting raster data using <code>tidyterra</code></a></li>
+<li class="chapter" data-level="6.4" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#plotting-vector-data"><i class="fa fa-check"></i><b>6.4</b> 1.4. Plotting vector data</a></li>
+<li class="chapter" data-level="6.5" data-path="chapter-1.-raster-and-shapefile-visualization.html"><a href="chapter-1.-raster-and-shapefile-visualization.html#reprojection-of-rasters-using-terraproject"><i class="fa fa-check"></i><b>6.5</b> 1.5. Reprojection of rasters using <code>terra::project</code></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="chapter-2.-geospatial-operations-on-rastervector-data.html"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html"><i class="fa fa-check"></i><b>7</b> CHAPTER 2. Geospatial operations on raster/vector data</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="chapter-2.-geospatial-operations-on-rastervector-data.html"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#raster-resampling"><i class="fa fa-check"></i><b>7.1</b> 2.1. Raster resampling</a></li>
+<li class="chapter" data-level="7.2" data-path="chapter-2.-geospatial-operations-on-rastervector-data.html"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#raster-summary-statistics"><i class="fa fa-check"></i><b>7.2</b> 2.2. Raster summary statistics</a></li>
+<li class="chapter" data-level="7.3" data-path="chapter-2.-geospatial-operations-on-rastervector-data.html"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#summarizing-rasters-using-shapefles"><i class="fa fa-check"></i><b>7.3</b> 2.3. Summarizing rasters using shapefles</a></li>
+<li class="chapter" data-level="7.4" data-path="chapter-2.-geospatial-operations-on-rastervector-data.html"><a href="chapter-2.-geospatial-operations-on-rastervector-data.html#diy-summarize-raster-using-classified-raster"><i class="fa fa-check"></i><b>7.4</b> 2.4. DIY: Summarize raster using classified raster</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html"><i class="fa fa-check"></i><b>8</b> CHAPTER 3. Data-cubes or SpatRaster</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#create-subset-and-visualize-spatraster"><i class="fa fa-check"></i><b>8.1</b> 3.1. Create, subset and visualize SpatRaster</a></li>
+<li class="chapter" data-level="8.2" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#geospatial-operations-on-spatraster"><i class="fa fa-check"></i><b>8.2</b> 3.2. Geospatial operations on SpatRaster</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#time-series-extraction-from-spatraster"><i class="fa fa-check"></i><b>8.2.1</b> 3.2.1. Time-series extraction from SpatRaster</a></li>
+<li class="chapter" data-level="8.2.2" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#spatial-extractionsummary-from-spatraster"><i class="fa fa-check"></i><b>8.2.2</b> 3.2.2. Spatial extraction/summary from SpatRaster</a></li>
+<li class="chapter" data-level="8.2.3" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#crop-and-mask-spatraster"><i class="fa fa-check"></i><b>8.2.3</b> 3.2.3. Crop and mask SpatRaster</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#layer-wise-operations-on-spatraster"><i class="fa fa-check"></i><b>8.3</b> 3.3. Layer-wise operations on SpatRaster</a></li>
+<li class="chapter" data-level="8.4" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#cell-wise-operations-with-app-lapp-tapp"><i class="fa fa-check"></i><b>8.4</b> 3.4. Cell-wise operations with <code>app</code>, <code>lapp</code>, <code>tapp</code></a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#app-cell-wise-operation-on-all-layers"><i class="fa fa-check"></i><b>8.4.1</b> 3.4.1. app: Cell-wise operation on all layers</a></li>
+<li class="chapter" data-level="8.4.2" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#tapp-cell-wise-operation-on-layer-groups"><i class="fa fa-check"></i><b>8.4.2</b> 3.4.2. tapp: Cell-wise operation on layer groups</a></li>
+<li class="chapter" data-level="8.4.3" data-path="chapter-3.-data-cubes-or-spatraster.html"><a href="chapter-3.-data-cubes-or-spatraster.html#lapp-layers-as-function-arguments"><i class="fa fa-check"></i><b>8.4.3</b> 3.4.3. lapp: layers as function arguments</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html"><i class="fa fa-check"></i><b>9</b> CHAPTER 4. Parallel computation for geospatial analysis</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#cellwise-implimentation-of-functions"><i class="fa fa-check"></i><b>9.1</b> 4.1. Cellwise implimentation of functions</a>
+<ul>
+<li class="chapter" data-level="9.1.1" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#apply-custom-function-to-pixel-time-series"><i class="fa fa-check"></i><b>9.1.1</b> 4.1.1. Apply custom function to pixel time series</a></li>
+<li class="chapter" data-level="9.1.2" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#best-practices-for-large-scale-operations"><i class="fa fa-check"></i><b>9.1.2</b> 4.2.1. Best practices for large-scale operations</a></li>
+</ul></li>
+<li class="chapter" data-level="9.2" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#layerwise-implimentation-of-functions"><i class="fa fa-check"></i><b>9.2</b> 4.2. Layerwise implimentation of functions</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#data-cubes-as-lists"><i class="fa fa-check"></i><b>9.2.1</b> 4.2.1. Data cubes as lists</a></li>
+<li class="chapter" data-level="9.2.2" data-path="chapter-4.-parallel-computation-for-geospatial-analysis.html"><a href="chapter-4.-parallel-computation-for-geospatial-analysis.html#blockwise-summary-of-feature-extracted-data"><i class="fa fa-check"></i><b>9.2.2</b> 4.2.2. Blockwise summary of feature extracted data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="chapter-5.-supplementary-material.html"><a href="chapter-5.-supplementary-material.html"><i class="fa fa-check"></i><b>10</b> CHAPTER 5. Supplementary material</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="chapter-5.-supplementary-material.html"><a href="chapter-5.-supplementary-material.html#exporting-spatraster-to-netcdf-data"><i class="fa fa-check"></i><b>10.1</b> 5.1. Exporting SpatRaster to NetCDF Data</a></li>
+<li class="chapter" data-level="10.2" data-path="chapter-5.-supplementary-material.html"><a href="chapter-5.-supplementary-material.html#updating-r-using-rstudio"><i class="fa fa-check"></i><b>10.2</b> 5.2. Updating R using RStudio</a></li>
+<li class="chapter" data-level="10.3" data-path="chapter-5.-supplementary-material.html"><a href="chapter-5.-supplementary-material.html#changing-temp-files-for-large-storage"><i class="fa fa-check"></i><b>10.3</b> 5.3. Changing Temp files for large storage</a></li>
+<li class="chapter" data-level="10.4" data-path="chapter-5.-supplementary-material.html"><a href="chapter-5.-supplementary-material.html#resampling-with-rgdalwarp"><i class="fa fa-check"></i><b>10.4</b> 5.4. Resampling with rgdalwarp</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href=https://soil-hydrology.com/" target="blank">https://soil-hydrology.com/</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Visualization and Geospatial Analysis With R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="chapter-0.-import-libraries-and-sample-dataset" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> CHAPTER 0. Import libraries and sample dataset<a href="chapter-0.-import-libraries-and-sample-dataset.html#chapter-0.-import-libraries-and-sample-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<hr />
+We will begin by loading necessary libraries.
+The sample dataset for this excercise can be downloaded manually from <code>GitHub</code> by accessing <code>https://github.com/Vinit-Sehgal/SampleData</code> <br>
+<center>
+<img src="SampleData-master/images/git_repo.png" style="width:60.0%" />
+</center>
+<p><br></p>
+<p>Alternatively, use the following code to download and extract the sample data from <code>GitHub</code> repository.</p>
+<p>Install all necessary packages (Run once).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb1-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
+<span id="cb1-2"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb1-2" tabindex="-1"></a><span class="co">#~~~ Load required libraries</span></span>
+<span id="cb1-3"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb1-3" tabindex="-1"></a>lib_names<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;terra&quot;</span>, <span class="st">&quot;tidyterra&quot;</span>, <span class="st">&quot;cetcolor&quot;</span>, <span class="st">&quot;scico&quot;</span>, <span class="st">&quot;tmap&quot;</span>,    </span>
+<span id="cb1-4"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb1-4" tabindex="-1"></a>            <span class="st">&quot;gifski&quot;</span>, <span class="st">&quot;lubridate&quot;</span>, <span class="co">#&quot;Rcpp&quot;, </span></span>
+<span id="cb1-5"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb1-5" tabindex="-1"></a>            <span class="st">&quot;raster&quot;</span>,<span class="st">&quot;ggplot2&quot;</span>,<span class="st">&quot;unikn&quot;</span>,<span class="st">&quot;mapview&quot;</span>,</span>
+<span id="cb1-6"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb1-6" tabindex="-1"></a>            <span class="st">&quot;gridExtra&quot;</span>,<span class="st">&quot;rgdal&quot;</span>,<span class="st">&quot;fields&quot;</span>,</span>
+<span id="cb1-7"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb1-7" tabindex="-1"></a>            <span class="st">&quot;RColorBrewer&quot;</span>,<span class="st">&quot;ncdf4&quot;</span>,<span class="st">&quot;rasterVis&quot;</span>,</span>
+<span id="cb1-8"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb1-8" tabindex="-1"></a>            <span class="st">&quot;rcartocolor&quot;</span>,<span class="st">&quot;pacman&quot;</span>,<span class="st">&quot;purrr&quot;</span>,<span class="st">&quot;moments&quot;</span>,<span class="st">&quot;tictoc&quot;</span>, </span>
+<span id="cb1-9"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb1-9" tabindex="-1"></a>            <span class="st">&quot;sf&quot;</span>, <span class="st">&quot;sp&quot;</span>, <span class="st">&quot;exactextractr&quot;</span>,<span class="st">&quot;readxl&quot;</span>, </span>
+<span id="cb1-10"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb1-10" tabindex="-1"></a>            <span class="st">&quot;snow&quot;</span>,<span class="st">&quot;future.apply&quot;</span>,<span class="st">&quot;parallel&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-1" tabindex="-1"></a><span class="co"># Load necessary packages</span></span>
+<span id="cb2-2"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-2" tabindex="-1"></a><span class="fu">invisible</span>(suppressMessages</span>
+<span id="cb2-3"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-3" tabindex="-1"></a>          (suppressWarnings</span>
+<span id="cb2-4"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-4" tabindex="-1"></a>            (lapply</span>
+<span id="cb2-5"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-5" tabindex="-1"></a>              (lib_names, require, <span class="at">character.only =</span> T))))</span>
+<span id="cb2-6"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-7" tabindex="-1"></a><span class="co"># An easy way to load multiple packages is through pacman::p_load</span></span>
+<span id="cb2-8"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-8" tabindex="-1"></a><span class="co"># pacman::p_load(&quot;raster&quot;,&quot;ggplot2&quot;,&quot;unikn&quot;,&quot;mapview&quot;,</span></span>
+<span id="cb2-9"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-9" tabindex="-1"></a><span class="co">#             &quot;gridExtra&quot;,&quot;rgdal&quot;,&quot;fields&quot;,</span></span>
+<span id="cb2-10"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-10" tabindex="-1"></a><span class="co">#             &quot;RColorBrewer&quot;,&quot;ncdf4&quot;,&quot;rasterVis&quot;, &quot;moments&quot;, &quot;tictoc&quot;, &quot;tibble&quot;)</span></span>
+<span id="cb2-11"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-11" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-12" tabindex="-1"></a><span class="co"># Update packages if they are already installed</span></span>
+<span id="cb2-13"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb2-13" tabindex="-1"></a><span class="co"># update.package(ask = FALSE)</span></span></code></pre></div>
+<p><em>Note</em>: The legacy R spatial infrastructure packages - <code>maptools</code>, <code>rgdal</code> and <code>rgeos</code> have been archived by CRAN from October 16, 2023; these retired packages will continue to be available as source packages on <a href="https://cran.r-project.org/src/contrib/Archive" class="uri">https://cran.r-project.org/src/contrib/Archive</a> but won’t undergo any further development.
+<br>
+We will now download the workshop repository, which contains all data we will use for this exercise.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb3-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
+<span id="cb3-2"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb3-2" tabindex="-1"></a><span class="co">#~~~ Import sample data from GitHub repository</span></span>
+<span id="cb3-3"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb3-3" tabindex="-1"></a><span class="fu">download.file</span>(<span class="at">url =</span> <span class="st">&quot;https://github.com/Vinit-Sehgal/SampleData/archive/master.zip&quot;</span>,</span>
+<span id="cb3-4"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb3-4" tabindex="-1"></a><span class="at">destfile =</span> <span class="st">&quot;SampleData-master.zip&quot;</span>)    <span class="co"># Download &quot;.Zip&quot;</span></span>
+<span id="cb3-5"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb3-6" tabindex="-1"></a><span class="co"># Unzip the downloaded .zip file</span></span>
+<span id="cb3-7"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb3-7" tabindex="-1"></a><span class="fu">unzip</span>(<span class="at">zipfile =</span> <span class="st">&quot;SampleData-master.zip&quot;</span>)</span>
+<span id="cb3-8"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb3-8" tabindex="-1"></a><span class="co"># getwd()                           # Current working directory</span></span>
+<span id="cb3-9"><a href="chapter-0.-import-libraries-and-sample-dataset.html#cb3-9" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">&quot;./SampleData-master&quot;</span>)   <span class="co"># List folder contents</span></span></code></pre></div>
+<pre><code>##  [1] &quot;CMIP_land&quot;                               
+##  [2] &quot;functions&quot;                               
+##  [3] &quot;images&quot;                                  
+##  [4] &quot;Largescale_geospatial_analysis_2022.html&quot;
+##  [5] &quot;Largescale_geospatial_analysis_2023.html&quot;
+##  [6] &quot;location_points.xlsx&quot;                    
+##  [7] &quot;ne_10m_coastline&quot;                        
+##  [8] &quot;raster_files&quot;                            
+##  [9] &quot;README.md&quot;                               
+## [10] &quot;sample_pdfs&quot;                             
+## [11] &quot;SMAP_L3_USA.nc&quot;                          
+## [12] &quot;SMAPL4_H5&quot;                               
+## [13] &quot;SMAPL4_rasters&quot;                          
+## [14] &quot;SMOS_nc&quot;                                 
+## [15] &quot;USA_states&quot;                              
+## [16] &quot;Workbook_DVGAR21-Part1.html&quot;             
+## [17] &quot;Workbook_DVGAR21-Part2.html&quot;</code></pre>
+<hr />
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="large-scale-geospatial-analysis-2023.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="chapter-1.-raster-and-shapefile-visualization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Vinit-Sehgal/lgar/edit/main/04-Largescale_geospatial_analysis_2023_v2.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": "https://github.com/Vinit-Sehgal/lgar/blob/main/04-Largescale_geospatial_analysis_2023_v2.Rmd",
+"text": null
+},
+"download": ["bookdownproj.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
