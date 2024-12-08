@@ -61,7 +61,7 @@
 <script src="libs/leaflet-binding-2.1.1/leaflet.js"></script>
 <script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
 <script src="libs/leaflet-providers-plugin-2.1.1/leaflet-providers-plugin.js"></script>
-<script src="libs/brick(sm)_239e54-1/data_stars_bricksm08a35b.txt"></script>
+<script src="libs/brick(sm)_697a2b-1/data_stars_bricksm658d43.txt"></script>
 <script src="libs/joda-0.0.1/joda.js"></script>
 <script src="libs/joda-0.0.1/addImageQuery-bindings.js"></script>
 <script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
@@ -316,7 +316,7 @@ We will use <code>global</code> function to apply summary statistics and user-de
 <p>Let’s explore using a spatial polygon/shapefile for summarizing a raster (in this case, global SMAP soil moisture) by using <code>extract</code> function from the <code>terra</code> library. We will also transform global aridity raster to a polygon using <code>as.polygons</code> and <code>st_as_sf</code> functions to find the mean soil moisture values for each aridity class.</p>
 <p>First, we will use the IPCC shapefile to summarize the soil moisture raster.</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="geospatial-operations-on-rastervector-data.html#cb50-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
-<span id="cb50-2"><a href="geospatial-operations-on-rastervector-data.html#cb50-2" tabindex="-1"></a><span class="co">#~~~ PART 2.3.1: Using shapefile to summarize a raster</span></span>
+<span id="cb50-2"><a href="geospatial-operations-on-rastervector-data.html#cb50-2" tabindex="-1"></a><span class="co"># Using shapefile to summarize a raster</span></span>
 <span id="cb50-3"><a href="geospatial-operations-on-rastervector-data.html#cb50-3" tabindex="-1"></a>sm_IPCC_df<span class="ot">=</span>terra<span class="sc">::</span><span class="fu">extract</span>(sm,        <span class="co"># Spatraster to be summarized</span></span>
 <span id="cb50-4"><a href="geospatial-operations-on-rastervector-data.html#cb50-4" tabindex="-1"></a>                          <span class="fu">vect</span>(IPCC_shp),  <span class="co"># Shapefile/ polygon to summarize the raster</span></span>
 <span id="cb50-5"><a href="geospatial-operations-on-rastervector-data.html#cb50-5" tabindex="-1"></a>                          <span class="at">df=</span><span class="cn">TRUE</span>,   <span class="co"># Gives the summary statistics as a dataframe</span></span>
@@ -332,7 +332,7 @@ We will use <code>global</code> function to apply summary statistics and user-de
 ## 5  5 0.2383580
 ## 6  6 0.1475145</code></pre>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="geospatial-operations-on-rastervector-data.html#cb52-1" tabindex="-1"></a><span class="do">###############################################################</span></span>
-<span id="cb52-2"><a href="geospatial-operations-on-rastervector-data.html#cb52-2" tabindex="-1"></a><span class="co">#~~~ PART 2.3.2: Extract cell values for each region </span></span>
+<span id="cb52-2"><a href="geospatial-operations-on-rastervector-data.html#cb52-2" tabindex="-1"></a><span class="co"># Extract cell values for each region </span></span>
 <span id="cb52-3"><a href="geospatial-operations-on-rastervector-data.html#cb52-3" tabindex="-1"></a>sm_IPCC_list<span class="ot">=</span>terra<span class="sc">::</span><span class="fu">extract</span>(sm,       <span class="co"># Raster to be summarized</span></span>
 <span id="cb52-4"><a href="geospatial-operations-on-rastervector-data.html#cb52-4" tabindex="-1"></a>                          <span class="fu">vect</span>(IPCC_shp),   <span class="co"># Shapefile/ polygon to summarize the raster</span></span>
 <span id="cb52-5"><a href="geospatial-operations-on-rastervector-data.html#cb52-5" tabindex="-1"></a>                          <span class="at">df=</span><span class="cn">FALSE</span>,   <span class="co"># Returns a list</span></span>

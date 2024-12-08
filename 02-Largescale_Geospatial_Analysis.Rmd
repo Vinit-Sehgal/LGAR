@@ -271,6 +271,8 @@ mapview(brick(sm),            # Convert SpatRaster to RasterBrick
 
 ```
 
+Other examples for using interactive plots with mapview can be found at: https://vinit-sehgal.github.io/AGRO4092/ch10.html#exercise-4 
+
 ## Plotting raster data using `tidyterra`
 
 `tidyterra` is a package that add common methods from the tidyverse for SpatRaster and SpatVectors objects created with the {`terra`} package. It also adds specific `geom_spat*()` functions for plotting these kind of objects with {ggplot2}.
@@ -595,7 +597,7 @@ Let's explore using a spatial polygon/shapefile for summarizing a raster (in thi
 First, we will use the IPCC shapefile to summarize the soil moisture raster. 
 ```{r summarize, message = FALSE, warning = FALSE}
 ###############################################################
-#~~~ PART 2.3.1: Using shapefile to summarize a raster
+# Using shapefile to summarize a raster
 sm_IPCC_df=terra::extract(sm,        # Spatraster to be summarized
                           vect(IPCC_shp),  # Shapefile/ polygon to summarize the raster
                           df=TRUE,   # Gives the summary statistics as a dataframe
@@ -605,7 +607,7 @@ sm_IPCC_df=terra::extract(sm,        # Spatraster to be summarized
 head(sm_IPCC_df)
 
 ###############################################################
-#~~~ PART 2.3.2: Extract cell values for each region 
+# Extract cell values for each region 
 sm_IPCC_list=terra::extract(sm,       # Raster to be summarized
                           vect(IPCC_shp),   # Shapefile/ polygon to summarize the raster
                           df=FALSE,   # Returns a list
@@ -1428,6 +1430,8 @@ mean_map=ggplot() +
 mean_map
 
 ```
+
+For more information on parallel computing, check out the chapter: https://vinit-sehgal.github.io/AGRO4092/ch9.html
 
 ***
 # Supplementary material
